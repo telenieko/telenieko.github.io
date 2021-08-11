@@ -1,71 +1,103 @@
-<!doctype html><html lang=en-us>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta content="debian,linux,barcelona,business,law,tax" name=keywords>
-<meta content="Marc Fargas" name=author>
-<meta property="og:title" content="Enable Wireless networks in Debian Initramfs - marcfargas.com">
-<meta property="og:url" content="https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/">
-<meta property="og:description" content="Personal blog of Marc Fargas">
-<meta property="og:type" content="website">
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
 <title>Enable Wireless networks in Debian Initramfs | marcfargas.com</title>
-<script type=text/x-mathjax-config>
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-<link rel=stylesheet href=https://www.marcfargas.com/css/style.css>
-<link rel="shortcut icon" href=https://www.marcfargas.com/favicon.ico>
-<link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin=anonymous>
-<link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/solarized-light.min.css>
+<meta name=keywords content="network,linux">
+<meta name=description content="Initramfs is a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic before loading your system. The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem. Basically anything that goes before mounting the root filesystem and, after that, before launching INIT (you can read more in the Debian Wiki).">
+<meta name=author content="Marc Fargas">
+<link rel=canonical href=https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.6cba0d81b5f3f42bb578d49f402ba4175aa72b43def148780b8ad714c957c6f5.css integrity="sha256-bLoNgbXz9Cu1eNSfQCukF1qnK0Pe8Uh4C4rXFMlXxvU=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://www.marcfargas.com/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=https://www.marcfargas.com/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=https://www.marcfargas.com/favicon-32x32.png>
+<link rel=apple-touch-icon href=https://www.marcfargas.com/apple-touch-icon.png>
+<link rel=mask-icon href=https://www.marcfargas.com/safari-pinned-tab.svg>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<meta name=generator content="Hugo 0.87.0">
+<meta property="og:title" content="Enable Wireless networks in Debian Initramfs">
+<meta property="og:description" content="Initramfs is a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic before loading your system. The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem. Basically anything that goes before mounting the root filesystem and, after that, before launching INIT (you can read more in the Debian Wiki).">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2017-12-07T21:43:57+01:00">
+<meta property="article:modified_time" content="2017-12-07T21:43:57+01:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Enable Wireless networks in Debian Initramfs">
+<meta name=twitter:description content="Initramfs is a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic before loading your system. The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem. Basically anything that goes before mounting the root filesystem and, after that, before launching INIT (you can read more in the Debian Wiki).">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://www.marcfargas.com/posts/"},{"@type":"ListItem","position":3,"name":"Enable Wireless networks in Debian Initramfs","item":"https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Enable Wireless networks in Debian Initramfs","name":"Enable Wireless networks in Debian Initramfs","description":"Initramfs is a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic before loading your system. The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem. Basically anything that goes before mounting the root filesystem and, after that, before launching INIT (you can read more in the Debian Wiki).","keywords":["network","linux"],"articleBody":" Initramfs is a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic before loading your system. The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem. Basically anything that goes before mounting the root filesystem and, after that, before launching INIT (you can read more in the Debian Wiki).\n There are scenarios in which you need the network available at this very preliminary state of the system boot. Doing that over wired ethernet is easy (as long as you don’t need authentication on the wire) with the ip= kernel parameter (see here the documentation of the ip= parameter). Wireless connectivity is a whole different issue, WPA needs a helper program (wpa_supplicant), network configuration and, most likely, firmware files.\nSo, lets find out how can we get a wireless connection up and running on initramfs to do something useful there (in a later post: unattended boot with an encrypted rootfs).\nA few warnings:\n I assume you know how to move around on the console, really. If you screw up you might end up on an emergency shell or event with an unbootable system. This solution kills wpa_supplicant at the last stage of init so the underlying system can take over the wireless connection (ie: NetworkManager) so, be sure that whatever you attempt to achieve can live with that network interruption. Make sure you have a keyboard and display (or a serial console). Do not attempt to do this on a headless system.  This has been tested on:\n Debian Stretch Intel Corporation Wireless 7260 AC WPA2 (AP is a Time Capsule)  initramfs-tools The Debian system utilises what is known as initramfs-tools to build the initramfs for the installed kernel images. A command comes with it: update-initramfs which updates/creates suchs images. This tools is highly extendable (in fact, lots of packages extend it) by the end-user in the folder /etc/initramfs-tools/ where hooks and scripts can be placed in order to customize the image build and/or the boot processes. A very good place to start would be man initramfs-tools for our purpose today: the SCRIPTS section.\nWhat we need initramfs-tools to do for us  Add our wireless modules and firmware to the initramfs Copy our dependencies to the image (wpa_supplicant, wpa_cli, wpa_supplicant.conf and its libraries) Start wpa_supplicant to connect to the network Setup networking (ip, etc) Hold the boot process until the network is up or a timeout occurs Kill wpa_supplicant before booting the underlying system to not conflict with whatever is there expecting full control of the network interface (aka: NetworkManager)  That sounds easy.\nCustom hook We will use a hook to do the first two steps, note that for the modules part you can just type the module name in /etc/initramfs-tools/modules and it should work. We do it in the hook just to keep everything together.\nThis goes into /etc/initramfs-tools/hooks/enable-wireless, make sure to put the right modules on the manual_add_modules line.\n# !/bin/sh set -e PREREQ=\"\" prereqs() { echo \"${PREREQ}\" } case \"${1}\" in prereqs) prereqs exit 0 ;; esac . /usr/share/initramfs-tools/hook-functions # CHANGE HERE for your correct modules. manual_add_modules iwlwifi iwlmvm copy_exec /sbin/wpa_supplicant copy_exec /sbin/wpa_cli copy_file config /etc/initramfs-tools/wpa_supplicant.conf /etc/wpa_supplicant.conf Pretty straighforward, the upper half is boilerplate as required by initramfs-tools, see the manpage for more. The rest is quite readable: add the modules (it will also add the firmwares), copy wpa* stuff, copy the configuration.\nNow, wpa_supplicant.conf is unique to you, as always, man wpa_supplicant.conf is your friend, and here is an example:\n# Sample /etc/initramfs-tools/wpa_supplicant.conf # note that this is independent of the system /etc/wpa_supplicant.conf (if any) # only add the network you need at boot time. **And keep the ctrl_interface** !! ctrl_interface=/tmp/wpa_supplicant network={ ssid=\"MyNetwork\" scan_ssid=1 psk=\"network passphrase\" key_mgmt=WPA-PSK } Connection script (init-premount) Now, we need the system to startup the supplicant, connect and go on. This can’t be done at the init-top stage because not even the kernel modules are available by then, to init-premount looks fine. Problem? Whatever the reason you are reading this, most likely it also happens in init-premount (mandos-client, cryptsetup, …) and initramfs-tools comes with this warning on the manpage:\n No guarantees are made as to the order in which the different scripts are executed unless the prereqs are setup in the script.\n So… dirty hack is to assume alphabetical order of execution and put “a_” in front of the script. It works, for now.\nThis goes into `/etc/initramfs-tools/scripts/init-premount/a_enable_wireless, you need to change the INTERFACE= and, maybe, the AUTH_LIMIT one (the timeout):\n#!/bin/sh PREREQ=\"\" prereqs() { echo \"$PREREQ\" } case $1 in prereqs) prereqs exit 0 ;; esac . /scripts/functions AUTH_LIMIT=30 INTERFACE=\"wlp5s0\" alias WPACLI=\"/sbin/wpa_cli -p/tmp/wpa_supplicant -i$INTERFACE\" log_begin_msg \"Starting WLAN connection\" /sbin/wpa_supplicant -i$INTERFACE -c/etc/wpa_supplicant.conf -P/run/initram-wpa_supplicant.pid -B -f /tmp/wpa_supplicant.log # Wait for AUTH_LIMIT seconds, then check the status limit=${AUTH_LIMIT} echo -n \"Waiting for connection (max ${AUTH_LIMIT}seconds)\" while [ $limit -ge 0 -a `WPACLI status | grep wpa_state` != \"wpa_state=COMPLETED\" ] do sleep 1 echo -n \".\" limit=`expr $limit - 1` done echo \"\" if [ `WPACLI status | grep wpa_state` != \"wpa_state=COMPLETED\" ]; then ONLINE=0 log_failure_msg \"WLAN offline after timeout\" panic else ONLINE=1 log_success_msg \"WLAN online\" fi configure_networking Kill when done Last, but not least, `/etc/initramfs-tools/scripts/local-bottom/kill_wireless should contain:\n#!/bin/sh PREREQ=\"\" prereqs() { echo \"$PREREQ\" } case $1 in prereqs) prereqs exit 0 ;; esac echo \"Killing wpa_supplicant so the system takes over later.\" kill `cat /run/initram-wpa_supplicant.pid` Final touches You may have noticed we use the provided configure_networking function, it relies on you passing the proper ip=kernel parameter, so better supply it, for GRUB just setup the GRUB_CMDLINE_LINUX in /etc/default/grub like: GRUB_CMDLINE_LINUX=\"ip=:::::wlp5s0:on panic=10\" (see here the documentation of the ip= parameter). The panic=10 makes the system reboot if something goes wrong (like network failure), when testing you might prefer break=premount or some other options, see the initramfs-tools manpage5 or the Debian wiki InitramfsDebug page\nMake the scripts executable, and, finally, rebuild initramfs and update-grub:\nchmod +x /etc/initramfs-tools/scripts/local-bottom/kill_wireless chmod +x /etc/initramfs-tools/scripts/init-premount/a_enable_wireless chmod +x /etc/initramfs-tools/hooks/enable-wireless update-initramfs -k all -u update-grub And… reboot. I suggest you boot with break=bottomso you can check things work as expected (i.e with ip link and ip addr).\n","wordCount":"1037","inLanguage":"en","datePublished":"2017-12-07T21:43:57+01:00","dateModified":"2017-12-07T21:43:57+01:00","author":{"@type":"Person","name":"Marc Fargas"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/"},"publisher":{"@type":"Organization","name":"marcfargas.com","logo":{"@type":"ImageObject","url":"https://www.marcfargas.com/favicon.ico"}}}</script>
 </head>
-<body>
-<section class=section>
-<div class=container>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<noscript>
+<style type=text/css>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:#1d1e20;--entry:#2e2e33;--primary:rgba(255, 255, 255, 0.84);--secondary:rgba(255, 255, 255, 0.56);--tertiary:rgba(255, 255, 255, 0.16);--content:rgba(255, 255, 255, 0.74);--hljs-bg:#2e2e33;--code-bg:#37383e;--border:#333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript>
+<header class=header>
 <nav class=nav>
-<div class=nav-left>
-<a class=nav-item href=https://www.marcfargas.com><h1 class="title is-4">marcfargas.com</h1></a>
+<div class=logo>
+<a href=https://www.marcfargas.com accesskey=h title="marcfargas.com (Alt + H)">marcfargas.com</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
 </div>
-<div class=nav-right>
-<nav class="nav-item level is-mobile">
-<a class=level-item href=https://github.com/telenieko target=_blank>
-<span class=icon>
-<i class="fa fa-github"></i>
-</span>
+<ul id=menu>
+<li>
+<a href=https://www.marcfargas.com/archives title=Archive>
+<span>Archive</span>
 </a>
-<a class=level-item href=https://twitter.com/telenieko target=_blank>
-<span class=icon>
-<i class="fa fa-twitter"></i>
-</span>
+</li>
+<li>
+<a href=https://www.marcfargas.com/search/ title="Search (Alt + /)" accesskey=/>
+<span>Search</span>
 </a>
-<a class=level-item href=https://linkedin.com/in/marc-fargas-58a4307 target=_blank>
-<span class=icon>
-<i class="fa fa-linkedin-square"></i>
-</span>
+</li>
+<li>
+<a href=https://www.marcfargas.com/tags/ title=Tags>
+<span>Tags</span>
 </a>
-<a class=level-item href=/index.xml target=_blank>
-<span class=icon>
-<i class="fa fa-rss"></i>
-</span>
-</a>
+</li>
+</ul>
 </nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://www.marcfargas.com>Home</a>&nbsp;»&nbsp;<a href=https://www.marcfargas.com/posts/>Posts</a></div>
+<h1 class=post-title>
+Enable Wireless networks in Debian Initramfs
+</h1>
+<div class=post-meta>Dec 7, 2017&nbsp;·&nbsp;5 min&nbsp;·&nbsp;Marc Fargas
 </div>
-</nav>
+</header> <div class=toc>
+<details open>
+<summary accesskey=c title="(Alt + C)">
+<div class=details>Table of Contents</div>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#initramfs-tools aria-label=initramfs-tools>initramfs-tools</a></li>
+<li>
+<a href=#what-we-need-initramfs-tools-to-do-for-us aria-label="What we need initramfs-tools to do for us">What we need initramfs-tools to do for us</a><ul>
+<li>
+<a href=#custom-hook aria-label="Custom hook">Custom hook</a></li>
+<li>
+<a href=#connection-script-init-premount aria-label="Connection script (init-premount)">Connection script (init-premount)</a></li>
+<li>
+<a href=#kill-when-done aria-label="Kill when done">Kill when done</a></li></ul>
+</li>
+<li>
+<a href=#final-touches aria-label="Final touches">Final touches</a>
+</li>
+</ul>
 </div>
-</section>
-<section class=section>
-<div class=container>
-<h1 class=title>Enable Wireless networks in Debian Initramfs</h1>
-<h2 class="subtitle is-5">December 7, 2017 by Marc Fargas</h2>
-<div class=tags>
-<a class="button is-link" href=/tags/network>network</a>
-<a class="button is-link" href=/tags/linux>linux</a>
+</details>
 </div>
-<div class=content>
-<blockquote>
+<div class=post-content><blockquote>
 <p><strong>Initramfs is</strong> a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic <em>before loading your system</em>.
 The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem.
 Basically anything that goes <em>before</em> mounting the root filesystem and,
@@ -86,11 +118,11 @@ after that, before launching INIT (you can read more in the <a href=https://wiki
 <li>Intel Corporation Wireless 7260 AC</li>
 <li>WPA2 (AP is a Time Capsule)</li>
 </ul>
-<h2 id=initramfs-tools>initramfs-tools</h2>
+<h2 id=initramfs-tools>initramfs-tools<a hidden class=anchor aria-hidden=true href=#initramfs-tools>#</a></h2>
 <p>The Debian system utilises what is known as <code>initramfs-tools</code> to build the initramfs for the installed kernel images. A command comes with it: <code>update-initramfs</code> which updates/creates suchs images.
 This tools is highly extendable (in fact, lots of packages extend it) by the end-user in the folder <code>/etc/initramfs-tools/</code> where hooks and scripts can be placed in order to <strong>customize the image build and/or the boot processes</strong>.
 A very good place to start would be <code>man initramfs-tools</code> for our purpose today: the SCRIPTS section.</p>
-<h2 id=what-we-need-initramfs-tools-to-do-for-us>What we need initramfs-tools to do for us</h2>
+<h2 id=what-we-need-initramfs-tools-to-do-for-us>What we need initramfs-tools to do for us<a hidden class=anchor aria-hidden=true href=#what-we-need-initramfs-tools-to-do-for-us>#</a></h2>
 <ul>
 <li>Add our wireless modules and firmware to the initramfs</li>
 <li>Copy our dependencies to the image (<code>wpa_supplicant</code>, <code>wpa_cli</code>, <code>wpa_supplicant.conf</code> and its libraries)</li>
@@ -100,27 +132,27 @@ A very good place to start would be <code>man initramfs-tools</code> for our pur
 <li>Kill <code>wpa_supplicant</code> before booting the underlying system to not conflict with whatever is there expecting full control of the network interface (aka: NetworkManager)</li>
 </ul>
 <p>That sounds easy.</p>
-<h3 id=custom-hook>Custom hook</h3>
+<h3 id=custom-hook>Custom hook<a hidden class=anchor aria-hidden=true href=#custom-hook>#</a></h3>
 <p>We will use a hook to do the first two steps, note that for the modules part you can just type the module name in <code>/etc/initramfs-tools/modules</code> and it should work. We do it in the hook just to keep everything together.</p>
 <p>This goes into <code>/etc/initramfs-tools/hooks/enable-wireless</code>, make sure to put
 the right modules on the <code>manual_add_modules</code> line.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=c1># !/bin/sh</span>
-<span class=nb>set</span> -e
-<span class=nv>PREREQ</span><span class=o>=</span><span class=s2>&#34;&#34;</span>
-prereqs<span class=o>()</span>
-<span class=o>{</span>
-    <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>PREREQ</span><span class=si>}</span><span class=s2>&#34;</span>
-<span class=o>}</span>
-<span class=k>case</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>1</span><span class=si>}</span><span class=s2>&#34;</span> in
-    prereqs<span class=o>)</span>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e># !/bin/sh</span>
+set -e
+PREREQ<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>
+prereqs<span style=color:#f92672>()</span>
+<span style=color:#f92672>{</span>
+    echo <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>PREREQ<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+<span style=color:#f92672>}</span>
+<span style=color:#66d9ef>case</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>1<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> in
+    prereqs<span style=color:#f92672>)</span>
         prereqs
-        <span class=nb>exit</span> <span class=m>0</span>
-        <span class=p>;;</span>
-<span class=k>esac</span>
+        exit <span style=color:#ae81ff>0</span>
+        ;;
+<span style=color:#66d9ef>esac</span>
 
 . /usr/share/initramfs-tools/hook-functions
 
-<span class=c1># CHANGE HERE for your correct modules.</span>
+<span style=color:#75715e># CHANGE HERE for your correct modules.</span>
 manual_add_modules iwlwifi iwlmvm
 copy_exec /sbin/wpa_supplicant
 copy_exec /sbin/wpa_cli
@@ -138,7 +170,7 @@ network={
     psk=&quot;network passphrase&quot;
     key_mgmt=WPA-PSK
 }
-</code></pre><h3 id=connection-script-init-premount>Connection script (init-premount)</h3>
+</code></pre><h3 id=connection-script-init-premount>Connection script (init-premount)<a hidden class=anchor aria-hidden=true href=#connection-script-init-premount>#</a></h3>
 <p>Now, we need the system to startup the supplicant, connect and go on. This
 can&rsquo;t be done at the init-top stage because not even the kernel modules are
 available by then, to init-premount looks fine. Problem? Whatever the reason
@@ -150,78 +182,78 @@ on <a href=https://manpages.debian.org/jessie/initramfs-tools/initramfs-tools.8.
 </blockquote>
 <p>So&mldr; dirty hack is to assume alphabetical order of execution and put &ldquo;a_&rdquo; in front of the script. It works, for now.</p>
 <p>This goes into `<code>/etc/initramfs-tools/scripts/init-premount/a_enable_wireless</code>, you need to change the <code>INTERFACE=</code> and, maybe, the <code>AUTH_LIMIT</code> one (the timeout):</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=cp>#!/bin/sh
-</span><span class=cp></span><span class=nv>PREREQ</span><span class=o>=</span><span class=s2>&#34;&#34;</span>
-prereqs<span class=o>()</span>
-<span class=o>{</span>
-    <span class=nb>echo</span> <span class=s2>&#34;</span><span class=nv>$PREREQ</span><span class=s2>&#34;</span>
-<span class=o>}</span>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/sh
+</span><span style=color:#75715e></span>PREREQ<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>
+prereqs<span style=color:#f92672>()</span>
+<span style=color:#f92672>{</span>
+    echo <span style=color:#e6db74>&#34;</span>$PREREQ<span style=color:#e6db74>&#34;</span>
+<span style=color:#f92672>}</span>
 
-<span class=k>case</span> <span class=nv>$1</span> in
-prereqs<span class=o>)</span>
+<span style=color:#66d9ef>case</span> $1 in
+prereqs<span style=color:#f92672>)</span>
     prereqs
-    <span class=nb>exit</span> <span class=m>0</span>
-    <span class=p>;;</span>
-<span class=k>esac</span>
+    exit <span style=color:#ae81ff>0</span>
+    ;;
+<span style=color:#66d9ef>esac</span>
 
 . /scripts/functions
 
-<span class=nv>AUTH_LIMIT</span><span class=o>=</span><span class=m>30</span>
-<span class=nv>INTERFACE</span><span class=o>=</span><span class=s2>&#34;wlp5s0&#34;</span>
-<span class=nb>alias</span> <span class=nv>WPACLI</span><span class=o>=</span><span class=s2>&#34;/sbin/wpa_cli -p/tmp/wpa_supplicant -i</span><span class=nv>$INTERFACE</span><span class=s2> &#34;</span>
+AUTH_LIMIT<span style=color:#f92672>=</span><span style=color:#ae81ff>30</span>
+INTERFACE<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;wlp5s0&#34;</span>
+alias WPACLI<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/sbin/wpa_cli -p/tmp/wpa_supplicant -i</span>$INTERFACE<span style=color:#e6db74> &#34;</span>
 
-log_begin_msg <span class=s2>&#34;Starting WLAN connection&#34;</span>
-/sbin/wpa_supplicant  -i<span class=nv>$INTERFACE</span> -c/etc/wpa_supplicant.conf -P/run/initram-wpa_supplicant.pid -B -f /tmp/wpa_supplicant.log
+log_begin_msg <span style=color:#e6db74>&#34;Starting WLAN connection&#34;</span>
+/sbin/wpa_supplicant  -i$INTERFACE -c/etc/wpa_supplicant.conf -P/run/initram-wpa_supplicant.pid -B -f /tmp/wpa_supplicant.log
 
-<span class=c1># Wait for AUTH_LIMIT seconds, then check the status</span>
-<span class=nv>limit</span><span class=o>=</span><span class=si>${</span><span class=nv>AUTH_LIMIT</span><span class=si>}</span>
+<span style=color:#75715e># Wait for AUTH_LIMIT seconds, then check the status</span>
+limit<span style=color:#f92672>=</span><span style=color:#e6db74>${</span>AUTH_LIMIT<span style=color:#e6db74>}</span>
 
-<span class=nb>echo</span> -n <span class=s2>&#34;Waiting for connection (max </span><span class=si>${</span><span class=nv>AUTH_LIMIT</span><span class=si>}</span><span class=s2> seconds)&#34;</span>
-<span class=k>while</span> <span class=o>[</span> <span class=nv>$limit</span> -ge <span class=m>0</span> -a <span class=sb>`</span>WPACLI status <span class=p>|</span> grep wpa_state<span class=sb>`</span> !<span class=o>=</span> <span class=s2>&#34;wpa_state=COMPLETED&#34;</span> <span class=o>]</span>
-<span class=k>do</span>
-    sleep <span class=m>1</span>
-    <span class=nb>echo</span> -n <span class=s2>&#34;.&#34;</span>
-    <span class=nv>limit</span><span class=o>=</span><span class=sb>`</span>expr <span class=nv>$limit</span> - 1<span class=sb>`</span>
-<span class=k>done</span>
-<span class=nb>echo</span> <span class=s2>&#34;&#34;</span>
+echo -n <span style=color:#e6db74>&#34;Waiting for connection (max </span><span style=color:#e6db74>${</span>AUTH_LIMIT<span style=color:#e6db74>}</span><span style=color:#e6db74> seconds)&#34;</span>
+<span style=color:#66d9ef>while</span> <span style=color:#f92672>[</span> $limit -ge <span style=color:#ae81ff>0</span> -a <span style=color:#e6db74>`</span>WPACLI status | grep wpa_state<span style=color:#e6db74>`</span> !<span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;wpa_state=COMPLETED&#34;</span> <span style=color:#f92672>]</span>
+<span style=color:#66d9ef>do</span>
+    sleep <span style=color:#ae81ff>1</span>
+    echo -n <span style=color:#e6db74>&#34;.&#34;</span>
+    limit<span style=color:#f92672>=</span><span style=color:#e6db74>`</span>expr $limit - 1<span style=color:#e6db74>`</span>
+<span style=color:#66d9ef>done</span>
+echo <span style=color:#e6db74>&#34;&#34;</span>
 
-<span class=k>if</span> <span class=o>[</span> <span class=sb>`</span>WPACLI status <span class=p>|</span> grep wpa_state<span class=sb>`</span> !<span class=o>=</span> <span class=s2>&#34;wpa_state=COMPLETED&#34;</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
-  <span class=nv>ONLINE</span><span class=o>=</span><span class=m>0</span>
-  log_failure_msg <span class=s2>&#34;WLAN offline after timeout&#34;</span>
+<span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>`</span>WPACLI status | grep wpa_state<span style=color:#e6db74>`</span> !<span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;wpa_state=COMPLETED&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+  ONLINE<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>
+  log_failure_msg <span style=color:#e6db74>&#34;WLAN offline after timeout&#34;</span>
   panic
-<span class=k>else</span>
-  <span class=nv>ONLINE</span><span class=o>=</span><span class=m>1</span>
-  log_success_msg <span class=s2>&#34;WLAN online&#34;</span>
-<span class=k>fi</span>
+<span style=color:#66d9ef>else</span>
+  ONLINE<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>
+  log_success_msg <span style=color:#e6db74>&#34;WLAN online&#34;</span>
+<span style=color:#66d9ef>fi</span>
 
 configure_networking
-</code></pre></div><h3 id=kill-when-done>Kill when done</h3>
+</code></pre></div><h3 id=kill-when-done>Kill when done<a hidden class=anchor aria-hidden=true href=#kill-when-done>#</a></h3>
 <p>Last, but not least, `<code>/etc/initramfs-tools/scripts/local-bottom/kill_wireless</code>
 should contain:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=cp>#!/bin/sh
-</span><span class=cp></span><span class=nv>PREREQ</span><span class=o>=</span><span class=s2>&#34;&#34;</span>
-prereqs<span class=o>()</span>
-<span class=o>{</span>
-    <span class=nb>echo</span> <span class=s2>&#34;</span><span class=nv>$PREREQ</span><span class=s2>&#34;</span>
-<span class=o>}</span>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/sh
+</span><span style=color:#75715e></span>PREREQ<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>
+prereqs<span style=color:#f92672>()</span>
+<span style=color:#f92672>{</span>
+    echo <span style=color:#e6db74>&#34;</span>$PREREQ<span style=color:#e6db74>&#34;</span>
+<span style=color:#f92672>}</span>
 
-<span class=k>case</span> <span class=nv>$1</span> in
-prereqs<span class=o>)</span>
+<span style=color:#66d9ef>case</span> $1 in
+prereqs<span style=color:#f92672>)</span>
     prereqs
-    <span class=nb>exit</span> <span class=m>0</span>
-    <span class=p>;;</span>
-<span class=k>esac</span>
+    exit <span style=color:#ae81ff>0</span>
+    ;;
+<span style=color:#66d9ef>esac</span>
 
-<span class=nb>echo</span> <span class=s2>&#34;Killing wpa_supplicant so the system takes over later.&#34;</span>
-<span class=nb>kill</span> <span class=sb>`</span>cat /run/initram-wpa_supplicant.pid<span class=sb>`</span>
-</code></pre></div><h2 id=final-touches>Final touches</h2>
+echo <span style=color:#e6db74>&#34;Killing wpa_supplicant so the system takes over later.&#34;</span>
+kill <span style=color:#e6db74>`</span>cat /run/initram-wpa_supplicant.pid<span style=color:#e6db74>`</span>
+</code></pre></div><h2 id=final-touches>Final touches<a hidden class=anchor aria-hidden=true href=#final-touches>#</a></h2>
 <p>You may have noticed we use the provided <code>configure_networking</code> function, it
 relies on you passing the proper <code>ip=</code>kernel parameter, so better supply it,
 for GRUB just setup the <code>GRUB_CMDLINE_LINUX</code> in <code>/etc/default/grub</code> like:
 <code>GRUB_CMDLINE_LINUX="ip=:::::wlp5s0:on panic=10"</code>
 (<a href=https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt title="Mounting the root filesystem via NFS (nfsroot) -- which documents the ip parameter">see here the documentation of the ip= parameter</a>). The <code>panic=10</code> makes the system reboot if something goes wrong (like network failure), when testing you might prefer <code>break=premount</code> or some other options, see the <a href=https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt title="Mounting the root filesystem via NFS (nfsroot) -- which documents the ip parameter">initramfs-tools manpage</a><a href=https://manpages.debian.org/jessie/initramfs-tools/initramfs-tools.8.en.html title="initramfs-tools manpage">5</a> or <a href=https://wiki.debian.org/InitramfsDebug title="Debian Wiki on InitramfsDebug">the Debian wiki InitramfsDebug page</a></p>
 <p>Make the scripts executable, and, finally, rebuild initramfs and update-grub:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>chmod +x /etc/initramfs-tools/scripts/local-bottom/kill_wireless
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>chmod +x /etc/initramfs-tools/scripts/local-bottom/kill_wireless
 chmod +x /etc/initramfs-tools/scripts/init-premount/a_enable_wireless
 chmod +x /etc/initramfs-tools/hooks/enable-wireless
 
@@ -229,30 +261,32 @@ update-initramfs -k all -u
 update-grub
 </code></pre></div><p>And&mldr; reboot. I suggest you boot with <code>break=bottom</code>so you can check things work as expected (i.e with <code>ip link</code> and <code>ip addr</code>).</p>
 </div>
-<div class=nav-left>
-<a class=nav-item href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.marcfargas.com%2f2017%2f12%2fenable-wireless-networks-in-debian-initramfs%2f" title="Share on Facebook" target=_blank><span class="fa fa-facebook fa-2x" aria-hidden=true></span></a>
-<a class=nav-item href="https://plus.google.com/share?url=https%3a%2f%2fwww.marcfargas.com%2f2017%2f12%2fenable-wireless-networks-in-debian-initramfs%2f" title="Share on Google+" target=_blank><span class="fa fa-google-plus fa-2x" aria-hidden=true></span></a>
-<a class=nav-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fwww.marcfargas.com%2f2017%2f12%2fenable-wireless-networks-in-debian-initramfs%2f" title="Share on LinkedIn" target=_blank><span class="fa fa-linkedin fa-2x" aria-hidden=true></span></a>
-<a class=nav-item href="https://twitter.com/home?status=Enable%20Wireless%20networks%20in%20Debian%20Initramfs - https%3a%2f%2fwww.marcfargas.com%2f2017%2f12%2fenable-wireless-networks-in-debian-initramfs%2f" title="Tweet this" target=_blank><span class="fa fa-twitter fa-2x"></span></a>
-<a class=nav-item href="http://www.reddit.com/submit?url=https%3a%2f%2fwww.marcfargas.com%2f2017%2f12%2fenable-wireless-networks-in-debian-initramfs%2f&title=Enable%20Wireless%20networks%20in%20Debian%20Initramfs" title="Share on Reddit" target=_blank><span class="fa fa-reddit-alien fa-2x" aria-hidden=true></span></a>
-</div>
-</div>
-</section>
-<section class=section>
-<div class="container has-text-centered">
-<p>&copy; 2021 | Follow on <a href=https://twitter.com/telenieko target=_blank>Twitter</a> | <a href=https://github.com/mgjohansen/hucore.git target=_blank>Hucore theme</a> & <a href=http://gohugo.io target=_blank>Hugo</a> ♥</p>
-</div>
-</section>
-<script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin=anonymous></script>
-<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/go.min.js></script>
-<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
-<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/python.min.js></script>
-<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
-<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/bash.min.js></script>
-<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
-<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/kotlin.min.js></script>
-<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
-<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/java.min.js></script>
-<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
-<script>hljs.initHighlightingOnLoad()</script>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://www.marcfargas.com/tags/network/>network</a></li>
+<li><a href=https://www.marcfargas.com/tags/linux/>linux</a></li>
+</ul>
+</footer>
+</article>
+</main>
+<footer class=footer>
+<span>© 2021
+| Follow on Twitter
+| PaperMod theme
+& Hugo ♥</span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)">
+<button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</button>
+</a>
+<script>let menu=document.getElementById('menu');menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)},document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+<script>document.querySelectorAll('pre > code').forEach(b=>{const c=b.parentNode.parentNode,a=document.createElement('button');a.classList.add('copy-code'),a.innerText='copy';function d(){a.innerText='copied!',setTimeout(()=>{a.innerText='copy'},2e3)}a.addEventListener('click',e=>{if('clipboard'in navigator){navigator.clipboard.writeText(b.textContent),d();return}const a=document.createRange();a.selectNodeContents(b);const c=window.getSelection();c.removeAllRanges(),c.addRange(a);try{document.execCommand('copy'),d()}catch(a){}c.removeRange(a)}),c.classList.contains("highlight")?c.appendChild(a):c.parentNode.firstChild==c||(b.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?b.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(a):b.parentNode.appendChild(a))})</script>
 </body>
+</html>

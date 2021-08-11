@@ -1,16 +1,425 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on marcfargas.com</title><link>https://www.marcfargas.com/posts/</link><description>Recent content in Posts on marcfargas.com</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2021 | Follow on &lt;a href="https://twitter.com/telenieko" target="_blank">Twitter&lt;/a> | &lt;a href="https://github.com/mgjohansen/hucore.git" target="_blank">Hucore theme&lt;/a> &amp; &lt;a href="http://gohugo.io" target="_blank">Hugo&lt;/a> ♥</copyright><lastBuildDate>Tue, 11 Jun 2019 12:32:12 +0200</lastBuildDate><atom:link href="https://www.marcfargas.com/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>State of RAD 2019</title><link>https://www.marcfargas.com/2019/06/state-of-rad-2019/</link><pubDate>Tue, 11 Jun 2019 12:32:12 +0200</pubDate><guid>https://www.marcfargas.com/2019/06/state-of-rad-2019/</guid><description>Though we are often sold into the idea that software development is better than ever before, the measure of better is open for debate. Surely you now have fancy stuff/words like DevOps, CI/CD, TDD, BDD, and more acronyms than there are three letter agencies in the US government.
-But, for those old enough, there was a time when you could build stuff with just a notepad. It &amp;ldquo;got the job done&amp;rdquo;.</description></item><item><title>Enable Wireless networks in Debian Initramfs</title><link>https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/</link><pubDate>Thu, 07 Dec 2017 21:43:57 +0100</pubDate><guid>https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/</guid><description>Initramfs is a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic before loading your system. The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem. Basically anything that goes before mounting the root filesystem and, after that, before launching INIT (you can read more in the Debian Wiki).</description></item><item><title>Nokia Beta Labs Stickers</title><link>https://www.marcfargas.com/2008/08/nokia-beta-labs-stickers/</link><pubDate>Mon, 25 Aug 2008 10:36:00 +0100</pubDate><guid>https://www.marcfargas.com/2008/08/nokia-beta-labs-stickers/</guid><description>Three days ago Nokia Beta Labs announced they were giving stickers for free (20 stickers for the 50 first ones). Today, three days after, I got my 20 stickers!
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on marcfargas.com</title>
+    <link>https://www.marcfargas.com/posts/</link>
+    <description>Recent content in Posts on marcfargas.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2021 
+  | Follow on &lt;a href=&#34;https://twitter.com/telenieko&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt; 
+  | &lt;a href=&#34;https://themes.gohugo.io/themes/hugo-papermod/&#34; target=&#34;_blank&#34;&gt;PaperMod theme&lt;/a&gt; 
+  &amp; &lt;a href=&#34;http://gohugo.io&#34; target=&#34;_blank&#34;&gt;Hugo&lt;/a&gt; ♥</copyright>
+    <lastBuildDate>Tue, 11 Jun 2019 12:32:12 +0200</lastBuildDate><atom:link href="https://www.marcfargas.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>State of RAD 2019</title>
+      <link>https://www.marcfargas.com/2019/06/state-of-rad-2019/</link>
+      <pubDate>Tue, 11 Jun 2019 12:32:12 +0200</pubDate>
+      
+      <guid>https://www.marcfargas.com/2019/06/state-of-rad-2019/</guid>
+      <description>Though we are often sold into the idea that software development is better than ever before, the measure of better is open for debate. Surely you now have fancy stuff/words like DevOps, CI/CD, TDD, BDD, and more acronyms than there are three letter agencies in the US government.
+But, for those old enough, there was a time when you could build stuff with just a notepad. It &amp;ldquo;got the job done&amp;rdquo;.</description>
+      <content:encoded><![CDATA[<p>Though we are often sold into the idea that software development is better than ever before, the measure of better is open for debate. Surely you now have fancy stuff/words like DevOps, CI/CD, TDD, BDD, and more acronyms than there are three letter agencies in the US government.</p>
+<p>But, for those old enough, there was a time when you could build stuff with just a notepad. It &ldquo;got the job done&rdquo;.</p>
+<p>On the desktop, Microsoft had FoxPro, VB6 or, even, Microsoft Access. I say Microsoft because there was a time that&rsquo;s &ldquo;all&rdquo; there was.</p>
+<p>On the web, sure, spaghetti code is ugly but it worked. If you just needed some quick reports, you could drop a script in a cgi-bin folder, do some tables and framesets and move on to the next thing.</p>
+<p>Nowadays all this things look more complicated for the &ldquo;amateur&rdquo; software developer. That is, solo developers or small business owners that are not tech-startups.</p>
+<p>On our definition of &ldquo;amateur&rdquo; there&rsquo;s nothing simpler than desktop. I have FoxPro 6 apps still running in the office, and the only thing that will kill them is lack of 64bit compatibility. <strong>Zero maintenance</strong>: just a folder with an .exe file to care about. 20 years running. The biggest pain would be updates, but this is internal stuff: just put that folder in a shared drive. You don&rsquo;t even have to care about libraries, there&rsquo;s only one dll&hellip;</p>
+<h2 id="the-current-lack-of-a-desktop-story">The current lack of a desktop story</h2>
+<p>What is out there that allows you to build a desktop application that will still run 20 years from now? Most business software does not need constant updates and new features, but it needs to be able to be open 5-10 years from now to print a report for a tax audit, for example.</p>
+<p>There is no compelling desktop story from anyone.</p>
+<p>On the Microsoft side (still major desktop OS): FoxPro is gone, Lightswitch too, VB.NET is not VB6, there&rsquo;s still MS Access.. completely stalled (read: VBA).</p>
+<p>You might think of Java: Eclipse RCP is, definitely, not for amateurs, and NetBeans RCP is stalled. Though NetBeans RCP might get a boost now with the donation to Apache, it is not at VFP/VB6 &ldquo;ease of use&rdquo; level.</p>
+<p>Then there are a few &ldquo;stories&rdquo; out there that lack something in some ways:</p>
+<ul>
+<li><a href="https://www.lazarus-ide.org/">Lazarus</a>. If not dealt with it enough to form an opinion, but it is a contender.</li>
+<li><a href="https://www.lianja.com/">Lianja</a>. Which promises lots but I&rsquo;m not sure about it&rsquo;s long term maintainability, specialy on desktop deployments. Though this is kind of a gut-guess.</li>
+<li><a href="https://www.windev.com/">PC Soft WINDEV</a>. This is probably the best desktop story if seen so far on the last few years. though it&rsquo;s language lacks some features of modern ones, you can get a lot done. Better JSON/REST support would do a lot, which it appears has been cared for in the latest release.</li>
+<li><a href="https://www.filemaker.com/">FileMaker</a>. I just hate it&rsquo;s licensing model (per-user), otherwise it&rsquo;d be almost fine, until you want to integrate with other stuff. It makes for amazing interfaces, but it&rsquo;s coding facilities are nowhere near any mainstream language like Python.</li>
+</ul>
+<p>The Microsoft front is probably the worst as it not only lacks a story, it&rsquo;s changing it every few years (WPF, WinForms, UWP, &hellip;).</p>
+<p>Russell Keith-Magee noted on the <a href="https://www.youtube.com/watch?v=ftP5BQh1-YM">PyCon 2019 Keynote</a> that Python lacks a compelling desktop story. I&rsquo;d go further: everyone lacks a compelling desktop story.</p>
+<h2 id="the-web-is-no-better">The web is no better</h2>
+<p>The web front is not as sad, as long as you know how to setup a web server you can still drop scripts in a cgi-bin folder and go with it.</p>
+<p>Web backends for small-scale applications are doable still with PHP, Python, &hellip; though frontend is a completely different matter. Nowadays all &ldquo;has to&rdquo; be JavaScript intensive, React! Angular! which means that most resources available work under that premise.</p>
+<p>A CSS framework that does not require you to setup npm, bower or another tool of the day is rare to be seen. Some frameworks that did not presume a bloated frontend before do so now, raising concern about the future of the non-react-non-angular builds. Maybe <a href="https://bulma.io/">Bulma CSS</a> might be an exception, no javascript at all, so not all is lost.</p>
+<p>Truth be told, on the web front, there is nothing as easy and straightforward than server side rendered content. Specially if you are on PHP or Python.</p>
+<p>There are some promises of rapid application development which, IMHO, are just that: promises. Rapid prototyping would be a more adequate wording.</p>
+<ul>
+<li><a href="https://openxava.org/">OpenXava</a>, not much to say. You simply need to really understand Java to go further from the basics. And &ldquo;really understand Java&rdquo; is not &ldquo;amateur development&rdquo;.</li>
+<li><a href="https://isis.apache.org/">Apache Isis</a>, I personally like it&rsquo;s philosophy a lot. But has the same issue as OpenXava: you really need to understand Java.</li>
+<li><a href="https://www.cuba-platform.com/">CUBA Platform</a>, I also happen to like it a lot. You can probably go further than with OpenXava or Isis without knowing a lot of Java, but it&rsquo;s still Java. furthermore, it has that ugly project structure that came from GWT days where you need to work with three separate modules for every &ldquo;module&rdquo; of you app: client, shared, server. That might improve when they move to Vaadin &gt;10, though it&rsquo;s not in the horizon.</li>
+</ul>
+<p>Java options basically all have the same issue for the amateur developer: once you need to move from &ldquo;prototype&rdquo; to the next stage you really need to understand what&rsquo;s going on under the hood, and that in Java is not easy.</p>
+<p>There are quite a few more, but I&rsquo;ll skip them as the point would be the same: there&rsquo;s nothing which will allow you to reliably build a simple CRUD / Line-Of-Business application without having to take care of a lot of infrastucture stuff like databases, web servers, etc.</p>
+<h2 id="invasion-of-subscription-model">Invasion of subscription model</h2>
+<p>I lied on my last paragraph. There is. WaveMaker, Microsoft PowerApps, Google AppMaker, &hellip; there is a plethora of low-code / no-code solutions out there. But:</p>
+<ul>
+<li>They are, generaly, cloud based or with super-expensive on-premises options.</li>
+<li>They are subscription based and with per-user pricing models.</li>
+<li>They use propietary technologies which is the worst lock-in you can voluntarily subject yourself to.</li>
+<li>The moment you need to do something out of &ldquo;the normal&rdquo; you will either not be able to do it, end up writting Java, or having to deploy something somewhere and call it via REST.</li>
+</ul>
+<p>But, more importantly, you can&rsquo;t fire that up 20 years from now and expect it to &ldquo;just work&rdquo; and be able to print some reports. Even if you pay for the applicable subscription fee for 20 years, I doubt you&rsquo;d get there without any code changes, etc.</p>
+<p>When integrating those tools, you will probably end up with a serverless function, because it&rsquo;s the easiest thing to deploy. Or a Kubernetes cluster, or anything else. You will be introducing cross dependencies and points of failure which you will then need to monitor and care about. Now imagine having to put that up again in 10 years because a court order asks for some records only avaiable in that (then in the future) legacy system.</p>
+<h2 id="conclusions">Conclusions</h2>
+<p>I really believe there&rsquo;s a space for such tools to come back to the front lines of application development. Applications that can run on their own either on the desktop or sandboxed in a browser but that do not require an infrastructure setup more than you need a monitor.</p>
+<p>Just as I also believe that the next economic crisis (soon to come) will end with lots of the current subscription based businesses moving companies back to things whose operation do not rely on being able to pay the next month&rsquo;s fee.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Enable Wireless networks in Debian Initramfs</title>
+      <link>https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/</link>
+      <pubDate>Thu, 07 Dec 2017 21:43:57 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/</guid>
+      <description>Initramfs is a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic before loading your system. The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem. Basically anything that goes before mounting the root filesystem and, after that, before launching INIT (you can read more in the Debian Wiki).</description>
+      <content:encoded><![CDATA[<blockquote>
+<p><strong>Initramfs is</strong> a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic <em>before loading your system</em>.
+The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem.
+Basically anything that goes <em>before</em> mounting the root filesystem and,
+after that, before launching INIT (you can read more in the <a href="https://wiki.debian.org/initramfs" title="Debian Wiki on initramfs">Debian Wiki</a>).</p>
+</blockquote>
+<p>There are scenarios in which you need the network available at this very preliminary state of the system boot. Doing that over wired ethernet is easy (as long as you don’t need authentication on the wire) with the <code>ip=</code> kernel parameter (<a href="https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt" title="Mounting the root filesystem via NFS (nfsroot) -- which documents the ip parameter">see here the documentation of the ip= parameter</a>). Wireless connectivity is a whole different issue, WPA needs a helper program (<code>wpa_supplicant</code>), network configuration and, most likely, firmware files.</p>
+<p>So, lets find out how can we get a wireless connection up and running on initramfs to do something useful there (in a later post: unattended boot with an encrypted rootfs).</p>
+<p>A few warnings:</p>
+<ul>
+<li>I assume you know how to move around on the console, really.</li>
+<li>If you screw up you might end up on an emergency shell or event with an unbootable system.</li>
+<li>This solution kills <code>wpa_supplicant</code> at the last stage of init so the  underlying system can take over the wireless connection (ie: NetworkManager) so, be sure that whatever you attempt to achieve can live with that network interruption.</li>
+<li>Make sure you have a keyboard and display (or a serial console). <strong>Do not</strong> attempt to do this on a headless system.</li>
+</ul>
+<p>This has been tested on:</p>
+<ul>
+<li>Debian Stretch</li>
+<li>Intel Corporation Wireless 7260 AC</li>
+<li>WPA2 (AP is a Time Capsule)</li>
+</ul>
+<h2 id="initramfs-tools">initramfs-tools</h2>
+<p>The Debian system utilises what is known as <code>initramfs-tools</code> to build the initramfs for the installed kernel images. A command comes with it: <code>update-initramfs</code> which updates/creates suchs images.
+This tools is highly extendable (in fact, lots of packages extend it) by the end-user in the folder <code>/etc/initramfs-tools/</code> where hooks and scripts can be placed in order to <strong>customize the image build and/or the boot processes</strong>.
+A very good place to start would be <code>man initramfs-tools</code> for our purpose today: the SCRIPTS section.</p>
+<h2 id="what-we-need-initramfs-tools-to-do-for-us">What we need initramfs-tools to do for us</h2>
+<ul>
+<li>Add our wireless modules and firmware to the initramfs</li>
+<li>Copy our dependencies to the image (<code>wpa_supplicant</code>, <code>wpa_cli</code>, <code>wpa_supplicant.conf</code> and its libraries)</li>
+<li>Start <code>wpa_supplicant</code> to connect to the network</li>
+<li>Setup networking (ip, etc)</li>
+<li>Hold the boot process until the network is up or a timeout occurs</li>
+<li>Kill <code>wpa_supplicant</code> before booting the underlying system to not conflict with whatever is there expecting full control of the network interface (aka: NetworkManager)</li>
+</ul>
+<p>That sounds easy.</p>
+<h3 id="custom-hook">Custom hook</h3>
+<p>We will use a hook to do the first two steps, note that for the modules part you can just type the module name in <code>/etc/initramfs-tools/modules</code> and it should work. We do it in the hook just to keep everything together.</p>
+<p>This goes into <code>/etc/initramfs-tools/hooks/enable-wireless</code>, make sure to put
+the right modules on the <code>manual_add_modules</code> line.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># !/bin/sh</span>
+set -e
+PREREQ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>
+prereqs<span style="color:#f92672">()</span>
+<span style="color:#f92672">{</span>
+    echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>PREREQ<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> in
+    prereqs<span style="color:#f92672">)</span>
+        prereqs
+        exit <span style="color:#ae81ff">0</span>
+        ;;
+<span style="color:#66d9ef">esac</span>
+
+. /usr/share/initramfs-tools/hook-functions
+
+<span style="color:#75715e"># CHANGE HERE for your correct modules.</span>
+manual_add_modules iwlwifi iwlmvm
+copy_exec /sbin/wpa_supplicant
+copy_exec /sbin/wpa_cli
+copy_file config /etc/initramfs-tools/wpa_supplicant.conf /etc/wpa_supplicant.conf
+</code></pre></div><p>Pretty straighforward, the upper half is boilerplate as required by initramfs-tools, see the manpage for more. The rest is quite readable: add the modules (it will also add the firmwares), copy wpa* stuff, copy the configuration.</p>
+<p>Now, <code>wpa_supplicant.conf</code> is unique to you, as always, <code>man wpa_supplicant.conf</code> is your friend, and here is an example:</p>
+<pre><code># Sample /etc/initramfs-tools/wpa_supplicant.conf
+# note that this is independent of the system /etc/wpa_supplicant.conf (if any)
+# only add the network you need at boot time. **And keep the ctrl_interface** !!
+ctrl_interface=/tmp/wpa_supplicant
+
+network={
+    ssid=&quot;MyNetwork&quot;
+    scan_ssid=1
+    psk=&quot;network passphrase&quot;
+    key_mgmt=WPA-PSK
+}
+</code></pre><h3 id="connection-script-init-premount">Connection script (init-premount)</h3>
+<p>Now, we need the system to startup the supplicant, connect and go on. This
+can&rsquo;t be done at the init-top stage because not even the kernel modules are
+available by then, to init-premount looks fine. Problem? Whatever the reason
+you are reading this, most likely it also happens in init-premount
+(mandos-client, cryptsetup, &hellip;) and initramfs-tools comes with this warning
+on <a href="https://manpages.debian.org/jessie/initramfs-tools/initramfs-tools.8.en.html" title="initramfs-tools manpage">the manpage</a>:</p>
+<blockquote>
+<p>No guarantees are made as to the order in which the different scripts are executed unless the prereqs are setup in the script.</p>
+</blockquote>
+<p>So&hellip; dirty hack is to assume alphabetical order of execution and put &ldquo;a_&rdquo; in front of the script. It works, for now.</p>
+<p>This goes into `<code>/etc/initramfs-tools/scripts/init-premount/a_enable_wireless</code>, you need to change the <code>INTERFACE=</code> and, maybe, the <code>AUTH_LIMIT</code> one (the timeout):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>PREREQ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>
+prereqs<span style="color:#f92672">()</span>
+<span style="color:#f92672">{</span>
+    echo <span style="color:#e6db74">&#34;</span>$PREREQ<span style="color:#e6db74">&#34;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">case</span> $1 in
+prereqs<span style="color:#f92672">)</span>
+    prereqs
+    exit <span style="color:#ae81ff">0</span>
+    ;;
+<span style="color:#66d9ef">esac</span>
+
+. /scripts/functions
+
+AUTH_LIMIT<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>
+INTERFACE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;wlp5s0&#34;</span>
+alias WPACLI<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/sbin/wpa_cli -p/tmp/wpa_supplicant -i</span>$INTERFACE<span style="color:#e6db74"> &#34;</span>
+
+log_begin_msg <span style="color:#e6db74">&#34;Starting WLAN connection&#34;</span>
+/sbin/wpa_supplicant  -i$INTERFACE -c/etc/wpa_supplicant.conf -P/run/initram-wpa_supplicant.pid -B -f /tmp/wpa_supplicant.log
+
+<span style="color:#75715e"># Wait for AUTH_LIMIT seconds, then check the status</span>
+limit<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>AUTH_LIMIT<span style="color:#e6db74">}</span>
+
+echo -n <span style="color:#e6db74">&#34;Waiting for connection (max </span><span style="color:#e6db74">${</span>AUTH_LIMIT<span style="color:#e6db74">}</span><span style="color:#e6db74"> seconds)&#34;</span>
+<span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $limit -ge <span style="color:#ae81ff">0</span> -a <span style="color:#e6db74">`</span>WPACLI status | grep wpa_state<span style="color:#e6db74">`</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;wpa_state=COMPLETED&#34;</span> <span style="color:#f92672">]</span>
+<span style="color:#66d9ef">do</span>
+    sleep <span style="color:#ae81ff">1</span>
+    echo -n <span style="color:#e6db74">&#34;.&#34;</span>
+    limit<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>expr $limit - 1<span style="color:#e6db74">`</span>
+<span style="color:#66d9ef">done</span>
+echo <span style="color:#e6db74">&#34;&#34;</span>
+
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">`</span>WPACLI status | grep wpa_state<span style="color:#e6db74">`</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;wpa_state=COMPLETED&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+  ONLINE<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+  log_failure_msg <span style="color:#e6db74">&#34;WLAN offline after timeout&#34;</span>
+  panic
+<span style="color:#66d9ef">else</span>
+  ONLINE<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+  log_success_msg <span style="color:#e6db74">&#34;WLAN online&#34;</span>
+<span style="color:#66d9ef">fi</span>
+
+configure_networking
+</code></pre></div><h3 id="kill-when-done">Kill when done</h3>
+<p>Last, but not least, `<code>/etc/initramfs-tools/scripts/local-bottom/kill_wireless</code>
+should contain:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>PREREQ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>
+prereqs<span style="color:#f92672">()</span>
+<span style="color:#f92672">{</span>
+    echo <span style="color:#e6db74">&#34;</span>$PREREQ<span style="color:#e6db74">&#34;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">case</span> $1 in
+prereqs<span style="color:#f92672">)</span>
+    prereqs
+    exit <span style="color:#ae81ff">0</span>
+    ;;
+<span style="color:#66d9ef">esac</span>
+
+echo <span style="color:#e6db74">&#34;Killing wpa_supplicant so the system takes over later.&#34;</span>
+kill <span style="color:#e6db74">`</span>cat /run/initram-wpa_supplicant.pid<span style="color:#e6db74">`</span>
+</code></pre></div><h2 id="final-touches">Final touches</h2>
+<p>You may have noticed we use the provided <code>configure_networking</code> function, it
+relies on you passing the proper <code>ip=</code>kernel parameter, so better supply it,
+for GRUB just setup the <code>GRUB_CMDLINE_LINUX</code> in <code>/etc/default/grub</code> like:
+<code>GRUB_CMDLINE_LINUX=&quot;ip=:::::wlp5s0:on panic=10&quot;</code>
+(<a href="https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt" title="Mounting the root filesystem via NFS (nfsroot) -- which documents the ip parameter">see here the documentation of the ip= parameter</a>). The <code>panic=10</code> makes the system reboot if something goes wrong (like network failure), when testing you might prefer <code>break=premount</code> or some other options, see the <a href="https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt" title="Mounting the root filesystem via NFS (nfsroot) -- which documents the ip parameter">initramfs-tools manpage</a><a href="https://manpages.debian.org/jessie/initramfs-tools/initramfs-tools.8.en.html" title="initramfs-tools manpage">5</a> or <a href="https://wiki.debian.org/InitramfsDebug" title="Debian Wiki on InitramfsDebug">the Debian wiki InitramfsDebug page</a></p>
+<p>Make the scripts executable, and, finally, rebuild initramfs and update-grub:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /etc/initramfs-tools/scripts/local-bottom/kill_wireless
+chmod +x /etc/initramfs-tools/scripts/init-premount/a_enable_wireless
+chmod +x /etc/initramfs-tools/hooks/enable-wireless
+
+update-initramfs -k all -u
+update-grub
+</code></pre></div><p>And&hellip; reboot. I suggest you boot with <code>break=bottom</code>so you can check things work as expected (i.e with <code>ip link</code> and <code>ip addr</code>).</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Nokia Beta Labs Stickers</title>
+      <link>https://www.marcfargas.com/2008/08/nokia-beta-labs-stickers/</link>
+      <pubDate>Mon, 25 Aug 2008 10:36:00 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2008/08/nokia-beta-labs-stickers/</guid>
+      <description>Three days ago Nokia Beta Labs announced they were giving stickers for free (20 stickers for the 50 first ones). Today, three days after, I got my 20 stickers!
 Maybe they should have send 10 stickers to the 100 first ones, I&amp;rsquo;ll have a hard time looking where to put so many stickers!
-Anyway, thanks Nokia</description></item><item><title>Hobbes in the River</title><link>https://www.marcfargas.com/2008/08/hobbes-in-the-river/</link><pubDate>Wed, 20 Aug 2008 21:05:00 +0100</pubDate><guid>https://www.marcfargas.com/2008/08/hobbes-in-the-river/</guid><description>This Saturday there was the &amp;ldquo;Fast Painting&amp;rdquo; course on Gualba (a town in El Montseny), as you may guess from the photo, Me and Hobbes didn&amp;rsquo;t spend any time painting.
-He spent the whole day running on the river with the tennis ball, And I threw the ball and took photos :)</description></item><item><title>Im 25</title><link>https://www.marcfargas.com/2008/08/im-25/</link><pubDate>Sun, 03 Aug 2008 10:00:00 +0100</pubDate><guid>https://www.marcfargas.com/2008/08/im-25/</guid><description>Just for you to know, I&amp;rsquo;m now 25 years old!</description></item><item><title>Moved to Google Apps</title><link>https://www.marcfargas.com/2008/07/moved-to-google-apps/</link><pubDate>Tue, 29 Jul 2008 19:47:00 +0100</pubDate><guid>https://www.marcfargas.com/2008/07/moved-to-google-apps/</guid><description>I started to get tired of managing my own exim+spamassassin+clamav+dovecot only to serve my domain, so I dediced to give Google Apps a try.
+Anyway, thanks Nokia</description>
+      <content:encoded><![CDATA[<p>Three days ago Nokia Beta Labs <a href="https://web.archive.org/web/20081230032008/http://betalabs.nokia.com/blog/2008/08/22/beta-labs-stickers-shipped-to-you-for-free/">announced</a> they were giving stickers for free (20 stickers for the 50 first ones). Today, three days after, I got my 20 stickers!</p>
+<p><img loading="lazy" src="stickers.jpg" alt="Nokia Beta Labs stickers"  />
+</p>
+<p>Maybe they should have send 10 stickers to the 100 first ones, I&rsquo;ll have a hard time looking where to put so many stickers!</p>
+<p>Anyway, thanks Nokia</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Hobbes in the River</title>
+      <link>https://www.marcfargas.com/2008/08/hobbes-in-the-river/</link>
+      <pubDate>Wed, 20 Aug 2008 21:05:00 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2008/08/hobbes-in-the-river/</guid>
+      <description>This Saturday there was the &amp;ldquo;Fast Painting&amp;rdquo; course on Gualba (a town in El Montseny), as you may guess from the photo, Me and Hobbes didn&amp;rsquo;t spend any time painting.
+He spent the whole day running on the river with the tennis ball, And I threw the ball and took photos :)</description>
+      <content:encoded><![CDATA[<p>This Saturday there was the &ldquo;Fast Painting&rdquo; course on Gualba (a town in El Montseny), as you may guess from the photo, Me and Hobbes didn&rsquo;t spend any time painting.</p>
+<p><img loading="lazy" src="hobbes.jpg" alt="Hobbes in the river"  />
+</p>
+<p>He spent the whole day running on the river with the tennis ball, And I threw the ball and took photos :)</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Im 25</title>
+      <link>https://www.marcfargas.com/2008/08/im-25/</link>
+      <pubDate>Sun, 03 Aug 2008 10:00:00 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2008/08/im-25/</guid>
+      <description>Just for you to know, I&amp;rsquo;m now 25 years old!</description>
+      <content:encoded><![CDATA[<p>Just for you to know, I&rsquo;m now 25 years old!</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Moved to Google Apps</title>
+      <link>https://www.marcfargas.com/2008/07/moved-to-google-apps/</link>
+      <pubDate>Tue, 29 Jul 2008 19:47:00 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2008/07/moved-to-google-apps/</guid>
+      <description>I started to get tired of managing my own exim+spamassassin+clamav+dovecot only to serve my domain, so I dediced to give Google Apps a try.
 The move was fairly easy, simply register and change MX records ;) (and use imapsync to copy mail). I guess I didn&amp;rsquo;t loose anything but If you sent me a mail in the last two weeks and I haven&amp;rsquo;t answered, please resend.
-The only downside, I hoped google would have some &amp;ldquo;easy&amp;rdquo; way to move my google account from *@gmail.</description></item><item><title>Ip Tunnel Over Ssh With Tun</title><link>https://www.marcfargas.com/2008/07/ip-tunnel-over-ssh-with-tun/</link><pubDate>Thu, 24 Jul 2008 10:14:00 +0100</pubDate><guid>https://www.marcfargas.com/2008/07/ip-tunnel-over-ssh-with-tun/</guid><description>Today I had some connection problems in one of our offices, so I needed to connect in some alternative way. A good moment for experimenting&amp;hellip; The alternative connection was my laptop acting as a router connected with my mobile phone via bluetooth.
-The problem&amp;rsquo;s come with the VPN connections, IPSec is nice, but you can hate it on lots of things&amp;hellip; i.e. all tunnels are setup using static ip addresses so in order to use the alternate connection (dynamic IP) I need to change the ipsec config of the other offices.</description></item><item><title>Wordpress in the Meantime</title><link>https://www.marcfargas.com/2008/07/wordpress-in-the-meantime/</link><pubDate>Sun, 20 Jul 2008 20:34:00 +0100</pubDate><guid>https://www.marcfargas.com/2008/07/wordpress-in-the-meantime/</guid><description>Ok, as you may have noticed I&amp;rsquo;m running Wordpress.
+The only downside, I hoped google would have some &amp;ldquo;easy&amp;rdquo; way to move my google account from *@gmail.</description>
+      <content:encoded><![CDATA[<p>I started to get tired of managing my own exim+spamassassin+clamav+dovecot only to serve my domain, so I dediced to give Google Apps a try.</p>
+<p>The move was fairly easy, simply register and change MX records ;) (and use imapsync to copy mail). I guess I didn&rsquo;t loose anything but If you sent me a mail in the last two weeks and I haven&rsquo;t answered, please resend.</p>
+<p>The only downside, I hoped google would have some &ldquo;easy&rdquo; way to move my google account from *@gmail.com to my Google Apps domain.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Ip Tunnel Over Ssh With Tun</title>
+      <link>https://www.marcfargas.com/2008/07/ip-tunnel-over-ssh-with-tun/</link>
+      <pubDate>Thu, 24 Jul 2008 10:14:00 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2008/07/ip-tunnel-over-ssh-with-tun/</guid>
+      <description>Today I had some connection problems in one of our offices, so I needed to connect in some alternative way. A good moment for experimenting&amp;hellip; The alternative connection was my laptop acting as a router connected with my mobile phone via bluetooth.
+The problem&amp;rsquo;s come with the VPN connections, IPSec is nice, but you can hate it on lots of things&amp;hellip; i.e. all tunnels are setup using static ip addresses so in order to use the alternate connection (dynamic IP) I need to change the ipsec config of the other offices.</description>
+      <content:encoded><![CDATA[<p>Today I had some connection problems in one of our offices, so I needed to connect in some alternative way. A good moment for experimenting&hellip; The alternative connection was my laptop acting as a router connected with my mobile phone via bluetooth.</p>
+<p>The problem&rsquo;s come with the VPN connections, IPSec is nice, but you can hate it on lots of things&hellip; i.e. all tunnels are setup using static ip addresses so in order to use the alternate connection (dynamic IP) I need to change the ipsec config of the other offices.</p>
+<p>So today I wanted to try something new, tunneling ip traffic from one network to another over an ssh connection. And it works, Gentoo&rsquo;s wiki has some information on the subject: <a href="https://web.archive.org/web/20090328151009/http://gentoo-wiki.com/HOWTO_VPN_over_SSH_and_tun" title="Gentoo Wiki">here</a></p>
+<p>In brief, you need to, on the server:</p>
+<p>Add &ldquo;<code>PermitTunnel yes</code>&rdquo; to <code>/etc/ssh/sshd_config</code>
+Now, on the client it&rsquo;s as easy as to run ssh with some parameters, my script for launching it is:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>HOST<span style="color:#f92672">=</span>REMOTE_PARTY_ADDRESS
+HOST_PORT<span style="color:#f92672">=</span><span style="color:#ae81ff">22</span>
+TUN_LOCAL<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>   <span style="color:#75715e"># tun device number here.</span>
+TUN_REMOTE<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>  <span style="color:#75715e"># tun device number there</span>
+IP_LOCAL<span style="color:#f92672">=</span>192.168.111.2 <span style="color:#75715e"># IP Address for tun here</span>
+IP_REMOTE<span style="color:#f92672">=</span>192.168.111.1 <span style="color:#75715e"># IP Address for tun there.</span>
+IP_MASK<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> <span style="color:#75715e"># Mask of the ips above.</span>
+NET_REMOTE<span style="color:#f92672">=</span>192.168.0.0/16 <span style="color:#75715e"># Network on the other side of the tunnel</span>
+NET_LOCAL<span style="color:#f92672">=</span>192.168.8.0/24  <span style="color:#75715e"># Network on this side of the tunnel</span>
+ 
+echo <span style="color:#e6db74">&#34;Starting VPN tunnel ...&#34;</span>
+modprobe tun
+ssh -w <span style="color:#e6db74">${</span>TUN_LOCAL<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>TUN_REMOTE<span style="color:#e6db74">}</span> -f <span style="color:#e6db74">${</span>HOST<span style="color:#e6db74">}</span> -p <span style="color:#e6db74">${</span>HOST_PORT<span style="color:#e6db74">}</span> <span style="color:#e6db74">&#34;\
+</span><span style="color:#e6db74">	ip addr add </span><span style="color:#e6db74">${</span>IP_REMOTE<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>IP_MASK<span style="color:#e6db74">}</span><span style="color:#e6db74"> dev tun</span><span style="color:#e6db74">${</span>TUN_REMOTE<span style="color:#e6db74">}</span><span style="color:#e6db74"> \
+</span><span style="color:#e6db74">	&amp;amp;&amp;amp; ip link set tun</span><span style="color:#e6db74">${</span>TUN_REMOTE<span style="color:#e6db74">}</span><span style="color:#e6db74"> up \
+</span><span style="color:#e6db74">	&amp;amp;&amp;amp; ip route add </span><span style="color:#e6db74">${</span>NET_LOCAL<span style="color:#e6db74">}</span><span style="color:#e6db74"> via </span><span style="color:#e6db74">${</span>IP_LOCAL<span style="color:#e6db74">}</span><span style="color:#e6db74"> \
+</span><span style="color:#e6db74">	&amp;amp;&amp;amp; true&#34;</span>
+sleep <span style="color:#ae81ff">3</span>
+ip addr add <span style="color:#e6db74">${</span>IP_LOCAL<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>IP_MASK<span style="color:#e6db74">}</span> dev tun<span style="color:#e6db74">${</span>TUN_LOCAL<span style="color:#e6db74">}</span>
+ip link set tun<span style="color:#e6db74">${</span>TUN_LOCAL<span style="color:#e6db74">}</span> up
+ip route add <span style="color:#e6db74">${</span>NET_REMOTE<span style="color:#e6db74">}</span> via <span style="color:#e6db74">${</span>IP_REMOTE<span style="color:#e6db74">}</span>
+echo <span style="color:#e6db74">&#34;... done.&#34;</span>
+</code></pre></div><p>You&rsquo;ll maybe want to run this as root, because of the &ldquo;ip&rdquo; commands, and so ;)</p>
+<p>It&rsquo;s still far from perfect (i.e: the tunnel dies too often for some reason&hellip; although keep alive is set). But at least people around can print again! Luckily VoIP is handled out of the VPN.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Wordpress in the Meantime</title>
+      <link>https://www.marcfargas.com/2008/07/wordpress-in-the-meantime/</link>
+      <pubDate>Sun, 20 Jul 2008 20:34:00 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2008/07/wordpress-in-the-meantime/</guid>
+      <description>Ok, as you may have noticed I&amp;rsquo;m running Wordpress.
 Although I&amp;rsquo;m a big fan of Django and I really enjoy developing sites with it, I just realised I do not have time to &amp;ldquo;build&amp;rdquo; my own website, neither to write up a blog app (I know, there are many out there). So I decided I&amp;rsquo;d try to live with Wordpress for some time, &amp;hellip;
-That just has a few problems&amp;hellip; My server (marcfargas.</description></item><item><title>Ms Excel Help Little Gem</title><link>https://www.marcfargas.com/2008/02/ms-excel-help-little-gem/</link><pubDate>Wed, 13 Feb 2008 13:12:00 +0100</pubDate><guid>https://www.marcfargas.com/2008/02/ms-excel-help-little-gem/</guid><description>We know Microsoft likes to be ambiguous, I just got this on MS Excel Help (In Spanish):
+That just has a few problems&amp;hellip; My server (marcfargas.</description>
+      <content:encoded><![CDATA[<p>Ok, as you may have noticed I&rsquo;m running Wordpress.</p>
+<p>Although I&rsquo;m a big fan of Django and I really enjoy developing sites with it, I just realised I do not have time to &ldquo;build&rdquo; my own website, neither to write up a blog app (I know, there are many out there). So I decided I&rsquo;d try to live with Wordpress for some time, &hellip;</p>
+<p>That just has a few problems&hellip; My server (marcfargas.com) has no PHP, and no MySQL! So I have to run the blog on a subdomain which is hosted in Dreamhost (I have an account here for other stuff).</p>
+<p>So, Djangonauts, forgive me for using Wordpress ;)</p>
+<p>NOTE to RSS Subscribers: I plan to write in either Spanish, Catalan or English. Posts in either language will be categorized so you can subscribe only to the language you want. See links at the right.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Ms Excel Help Little Gem</title>
+      <link>https://www.marcfargas.com/2008/02/ms-excel-help-little-gem/</link>
+      <pubDate>Wed, 13 Feb 2008 13:12:00 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2008/02/ms-excel-help-little-gem/</guid>
+      <description>We know Microsoft likes to be ambiguous, I just got this on MS Excel Help (In Spanish):
 Si a1 es VERDADERO o se omite, ref se interpreta como una referencia estilo A1. Si a1 es FALSO o se omite, ref se interpreta como una referencia estilo L1C1. This can be translated to:
-If a1 is TRUE or omitted, ref is interpreted as a reference of style A1. If a1 is FALSE or omitted, ref is interpreted as a reference of style L1C1.</description></item><item><title>Outgoing connections from Linux not working</title><link>https://www.marcfargas.com/2008/01/outgoing-connections-from-linux-not-working/</link><pubDate>Sun, 13 Jan 2008 13:10:00 +0100</pubDate><guid>https://www.marcfargas.com/2008/01/outgoing-connections-from-linux-not-working/</guid><description>A friend of mine has a nice MythTV box on his bedroom. Suddently the box decided to not open outgoing connections anymore&amp;hellip; I say outgoing because I could still connect to it from my home.
+If a1 is TRUE or omitted, ref is interpreted as a reference of style A1. If a1 is FALSE or omitted, ref is interpreted as a reference of style L1C1.</description>
+      <content:encoded><![CDATA[<p>We know Microsoft likes to be ambiguous, I just got this on MS Excel Help (In Spanish):</p>
+<pre><code>Si a1 es VERDADERO o se omite, ref se interpreta como una referencia estilo A1.
+Si a1 es FALSO o se omite, ref se interpreta como una referencia estilo L1C1.
+</code></pre><p>This can be translated to:</p>
+<pre><code>If a1 is TRUE or omitted, ref is interpreted as a reference of style A1.
+If a1 is FALSE or omitted, ref is interpreted as a reference of style L1C1.
+</code></pre><p>Now, the big question is, if a1 is omited how will ref be interpreted?</p>
+<p>The Online Help (English version) is correct, somebody wanted to confuse Spanish users! ;)</p>
+<p>(Online version of Office Help available <a href="https://web.archive.org/web/20090101064733/http://office.microsoft.com/es-es/excel/HP100624133082.aspx" title="MS Online help">here</a>)</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Outgoing connections from Linux not working</title>
+      <link>https://www.marcfargas.com/2008/01/outgoing-connections-from-linux-not-working/</link>
+      <pubDate>Sun, 13 Jan 2008 13:10:00 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2008/01/outgoing-connections-from-linux-not-working/</guid>
+      <description>A friend of mine has a nice MythTV box on his bedroom. Suddently the box decided to not open outgoing connections anymore&amp;hellip; I say outgoing because I could still connect to it from my home.
 I could not find out what was last changed, maybe an aptitude upgrade or did he change ISP?
-After some time looking around the only thing I could find out was a small difference between a SYN packet send from a remote place and the SYN packets send by the broken system:</description></item><item><title>Trying Blogger</title><link>https://www.marcfargas.com/2007/10/trying-blogger/</link><pubDate>Sat, 20 Oct 2007 17:57:00 +0100</pubDate><guid>https://www.marcfargas.com/2007/10/trying-blogger/</guid><description>Hi there,
+After some time looking around the only thing I could find out was a small difference between a SYN packet send from a remote place and the SYN packets send by the broken system:</description>
+      <content:encoded><![CDATA[<p>A friend of mine has a nice MythTV box on his bedroom. Suddently the box decided to not open outgoing connections anymore&hellip; I say outgoing because I could still connect to it from my home.</p>
+<p>I could not find out what was last changed, maybe an aptitude upgrade or did he change ISP?</p>
+<p>After some time looking around the only thing I could find out was a small difference between a SYN packet send from a remote place and the SYN packets send by the broken system:</p>
+<pre><code class="language-none" data-lang="none">22:56:47.855219 IP Banner.local.33509 &gt; google.es.www: S 206185417:206185417(0)
+    win 5840 &lt;mss 1460,sackOK,timestamp 218414628 0,nop,wscale 5&gt;
+
+23:24:16.072713 IP golfos.net.42742 &gt; Banner.local.ssh: S 1705835822:1705835822(0)
+    win 5840 &lt;mss 1460,sackOK,timestamp 5636642 0,nop,wscale 4&gt;
+</code></pre><p>You see, his box was sending wscale 5 and remote sites sent wscale 4, google, google, more google until I read this:</p>
+<blockquote>
+<p>I think OpenBSD&rsquo;s claim (they did have the bug and probably still do for all that I know) was that they wanted to make their firewalling &ldquo;stateless&rdquo; <a href="http://kerneltrap.org/node/6723">source</a>.</p>
+</blockquote>
+<p>Maybe the router does not know what wscale means? I disabled the router&rsquo;s firewall completelly (I was sure I already did this&hellip;) and suddently everything worked fine&hellip;</p>
+<p>Sure, I have to read more about windows scaling and try to understand what is wrong with the router&rsquo;s firewall but for now: things work.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Trying Blogger</title>
+      <link>https://www.marcfargas.com/2007/10/trying-blogger/</link>
+      <pubDate>Sat, 20 Oct 2007 17:57:00 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2007/10/trying-blogger/</guid>
+      <description>Hi there,
 This is a first post just to make sure something appears there. I created this blog just to see if my Nokia N95 can publish stuff there via Lifeblog or Share Online. But it doesn&amp;rsquo;t seem to like Google as it won&amp;rsquo;t publish to Blogger, neither Picassa&amp;hellip; Just flickr, Vox and Typepad&amp;hellip;
-Maybe that changes someday. But atleast I have a place to take notes of public interest.</description></item></channel></rss>
+Maybe that changes someday. But atleast I have a place to take notes of public interest.</description>
+      <content:encoded><![CDATA[<p>Hi there,</p>
+<p>This is a first post just to make sure something appears there. I created this blog just to see if my Nokia N95 can publish stuff there via Lifeblog or Share Online. But it doesn&rsquo;t seem to like Google as it won&rsquo;t publish to Blogger, neither Picassa&hellip; Just flickr, Vox and Typepad&hellip;</p>
+<p>Maybe that changes someday. But atleast I have a place to take notes of public interest.</p>
+<p>That is, a place to say things like: GNOME rocks, Debian rocks even more, my N95 is awesome&hellip; or things like that.</p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

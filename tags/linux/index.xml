@@ -1,2 +1,230 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>linux on marcfargas.com</title><link>https://www.marcfargas.com/tags/linux/</link><description>Recent content in linux on marcfargas.com</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2021 | Follow on &lt;a href="https://twitter.com/telenieko" target="_blank">Twitter&lt;/a> | &lt;a href="https://github.com/mgjohansen/hucore.git" target="_blank">Hucore theme&lt;/a> &amp; &lt;a href="http://gohugo.io" target="_blank">Hugo&lt;/a> ♥</copyright><lastBuildDate>Thu, 07 Dec 2017 21:43:57 +0100</lastBuildDate><atom:link href="https://www.marcfargas.com/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Enable Wireless networks in Debian Initramfs</title><link>https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/</link><pubDate>Thu, 07 Dec 2017 21:43:57 +0100</pubDate><guid>https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/</guid><description>Initramfs is a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic before loading your system. The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem. Basically anything that goes before mounting the root filesystem and, after that, before launching INIT (you can read more in the Debian Wiki).</description></item><item><title>Ip Tunnel Over Ssh With Tun</title><link>https://www.marcfargas.com/2008/07/ip-tunnel-over-ssh-with-tun/</link><pubDate>Thu, 24 Jul 2008 10:14:00 +0100</pubDate><guid>https://www.marcfargas.com/2008/07/ip-tunnel-over-ssh-with-tun/</guid><description>Today I had some connection problems in one of our offices, so I needed to connect in some alternative way. A good moment for experimenting&amp;hellip; The alternative connection was my laptop acting as a router connected with my mobile phone via bluetooth.
-The problem&amp;rsquo;s come with the VPN connections, IPSec is nice, but you can hate it on lots of things&amp;hellip; i.e. all tunnels are setup using static ip addresses so in order to use the alternate connection (dynamic IP) I need to change the ipsec config of the other offices.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>linux on marcfargas.com</title>
+    <link>https://www.marcfargas.com/tags/linux/</link>
+    <description>Recent content in linux on marcfargas.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2021 
+  | Follow on &lt;a href=&#34;https://twitter.com/telenieko&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt; 
+  | &lt;a href=&#34;https://themes.gohugo.io/themes/hugo-papermod/&#34; target=&#34;_blank&#34;&gt;PaperMod theme&lt;/a&gt; 
+  &amp; &lt;a href=&#34;http://gohugo.io&#34; target=&#34;_blank&#34;&gt;Hugo&lt;/a&gt; ♥</copyright>
+    <lastBuildDate>Thu, 07 Dec 2017 21:43:57 +0100</lastBuildDate><atom:link href="https://www.marcfargas.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Enable Wireless networks in Debian Initramfs</title>
+      <link>https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/</link>
+      <pubDate>Thu, 07 Dec 2017 21:43:57 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2017/12/enable-wireless-networks-in-debian-initramfs/</guid>
+      <description>Initramfs is a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic before loading your system. The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem. Basically anything that goes before mounting the root filesystem and, after that, before launching INIT (you can read more in the Debian Wiki).</description>
+      <content:encoded><![CDATA[<blockquote>
+<p><strong>Initramfs is</strong> a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic <em>before loading your system</em>.
+The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem.
+Basically anything that goes <em>before</em> mounting the root filesystem and,
+after that, before launching INIT (you can read more in the <a href="https://wiki.debian.org/initramfs" title="Debian Wiki on initramfs">Debian Wiki</a>).</p>
+</blockquote>
+<p>There are scenarios in which you need the network available at this very preliminary state of the system boot. Doing that over wired ethernet is easy (as long as you don’t need authentication on the wire) with the <code>ip=</code> kernel parameter (<a href="https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt" title="Mounting the root filesystem via NFS (nfsroot) -- which documents the ip parameter">see here the documentation of the ip= parameter</a>). Wireless connectivity is a whole different issue, WPA needs a helper program (<code>wpa_supplicant</code>), network configuration and, most likely, firmware files.</p>
+<p>So, lets find out how can we get a wireless connection up and running on initramfs to do something useful there (in a later post: unattended boot with an encrypted rootfs).</p>
+<p>A few warnings:</p>
+<ul>
+<li>I assume you know how to move around on the console, really.</li>
+<li>If you screw up you might end up on an emergency shell or event with an unbootable system.</li>
+<li>This solution kills <code>wpa_supplicant</code> at the last stage of init so the  underlying system can take over the wireless connection (ie: NetworkManager) so, be sure that whatever you attempt to achieve can live with that network interruption.</li>
+<li>Make sure you have a keyboard and display (or a serial console). <strong>Do not</strong> attempt to do this on a headless system.</li>
+</ul>
+<p>This has been tested on:</p>
+<ul>
+<li>Debian Stretch</li>
+<li>Intel Corporation Wireless 7260 AC</li>
+<li>WPA2 (AP is a Time Capsule)</li>
+</ul>
+<h2 id="initramfs-tools">initramfs-tools</h2>
+<p>The Debian system utilises what is known as <code>initramfs-tools</code> to build the initramfs for the installed kernel images. A command comes with it: <code>update-initramfs</code> which updates/creates suchs images.
+This tools is highly extendable (in fact, lots of packages extend it) by the end-user in the folder <code>/etc/initramfs-tools/</code> where hooks and scripts can be placed in order to <strong>customize the image build and/or the boot processes</strong>.
+A very good place to start would be <code>man initramfs-tools</code> for our purpose today: the SCRIPTS section.</p>
+<h2 id="what-we-need-initramfs-tools-to-do-for-us">What we need initramfs-tools to do for us</h2>
+<ul>
+<li>Add our wireless modules and firmware to the initramfs</li>
+<li>Copy our dependencies to the image (<code>wpa_supplicant</code>, <code>wpa_cli</code>, <code>wpa_supplicant.conf</code> and its libraries)</li>
+<li>Start <code>wpa_supplicant</code> to connect to the network</li>
+<li>Setup networking (ip, etc)</li>
+<li>Hold the boot process until the network is up or a timeout occurs</li>
+<li>Kill <code>wpa_supplicant</code> before booting the underlying system to not conflict with whatever is there expecting full control of the network interface (aka: NetworkManager)</li>
+</ul>
+<p>That sounds easy.</p>
+<h3 id="custom-hook">Custom hook</h3>
+<p>We will use a hook to do the first two steps, note that for the modules part you can just type the module name in <code>/etc/initramfs-tools/modules</code> and it should work. We do it in the hook just to keep everything together.</p>
+<p>This goes into <code>/etc/initramfs-tools/hooks/enable-wireless</code>, make sure to put
+the right modules on the <code>manual_add_modules</code> line.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># !/bin/sh</span>
+set -e
+PREREQ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>
+prereqs<span style="color:#f92672">()</span>
+<span style="color:#f92672">{</span>
+    echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>PREREQ<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> in
+    prereqs<span style="color:#f92672">)</span>
+        prereqs
+        exit <span style="color:#ae81ff">0</span>
+        ;;
+<span style="color:#66d9ef">esac</span>
+
+. /usr/share/initramfs-tools/hook-functions
+
+<span style="color:#75715e"># CHANGE HERE for your correct modules.</span>
+manual_add_modules iwlwifi iwlmvm
+copy_exec /sbin/wpa_supplicant
+copy_exec /sbin/wpa_cli
+copy_file config /etc/initramfs-tools/wpa_supplicant.conf /etc/wpa_supplicant.conf
+</code></pre></div><p>Pretty straighforward, the upper half is boilerplate as required by initramfs-tools, see the manpage for more. The rest is quite readable: add the modules (it will also add the firmwares), copy wpa* stuff, copy the configuration.</p>
+<p>Now, <code>wpa_supplicant.conf</code> is unique to you, as always, <code>man wpa_supplicant.conf</code> is your friend, and here is an example:</p>
+<pre><code># Sample /etc/initramfs-tools/wpa_supplicant.conf
+# note that this is independent of the system /etc/wpa_supplicant.conf (if any)
+# only add the network you need at boot time. **And keep the ctrl_interface** !!
+ctrl_interface=/tmp/wpa_supplicant
+
+network={
+    ssid=&quot;MyNetwork&quot;
+    scan_ssid=1
+    psk=&quot;network passphrase&quot;
+    key_mgmt=WPA-PSK
+}
+</code></pre><h3 id="connection-script-init-premount">Connection script (init-premount)</h3>
+<p>Now, we need the system to startup the supplicant, connect and go on. This
+can&rsquo;t be done at the init-top stage because not even the kernel modules are
+available by then, to init-premount looks fine. Problem? Whatever the reason
+you are reading this, most likely it also happens in init-premount
+(mandos-client, cryptsetup, &hellip;) and initramfs-tools comes with this warning
+on <a href="https://manpages.debian.org/jessie/initramfs-tools/initramfs-tools.8.en.html" title="initramfs-tools manpage">the manpage</a>:</p>
+<blockquote>
+<p>No guarantees are made as to the order in which the different scripts are executed unless the prereqs are setup in the script.</p>
+</blockquote>
+<p>So&hellip; dirty hack is to assume alphabetical order of execution and put &ldquo;a_&rdquo; in front of the script. It works, for now.</p>
+<p>This goes into `<code>/etc/initramfs-tools/scripts/init-premount/a_enable_wireless</code>, you need to change the <code>INTERFACE=</code> and, maybe, the <code>AUTH_LIMIT</code> one (the timeout):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>PREREQ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>
+prereqs<span style="color:#f92672">()</span>
+<span style="color:#f92672">{</span>
+    echo <span style="color:#e6db74">&#34;</span>$PREREQ<span style="color:#e6db74">&#34;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">case</span> $1 in
+prereqs<span style="color:#f92672">)</span>
+    prereqs
+    exit <span style="color:#ae81ff">0</span>
+    ;;
+<span style="color:#66d9ef">esac</span>
+
+. /scripts/functions
+
+AUTH_LIMIT<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>
+INTERFACE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;wlp5s0&#34;</span>
+alias WPACLI<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/sbin/wpa_cli -p/tmp/wpa_supplicant -i</span>$INTERFACE<span style="color:#e6db74"> &#34;</span>
+
+log_begin_msg <span style="color:#e6db74">&#34;Starting WLAN connection&#34;</span>
+/sbin/wpa_supplicant  -i$INTERFACE -c/etc/wpa_supplicant.conf -P/run/initram-wpa_supplicant.pid -B -f /tmp/wpa_supplicant.log
+
+<span style="color:#75715e"># Wait for AUTH_LIMIT seconds, then check the status</span>
+limit<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>AUTH_LIMIT<span style="color:#e6db74">}</span>
+
+echo -n <span style="color:#e6db74">&#34;Waiting for connection (max </span><span style="color:#e6db74">${</span>AUTH_LIMIT<span style="color:#e6db74">}</span><span style="color:#e6db74"> seconds)&#34;</span>
+<span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $limit -ge <span style="color:#ae81ff">0</span> -a <span style="color:#e6db74">`</span>WPACLI status | grep wpa_state<span style="color:#e6db74">`</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;wpa_state=COMPLETED&#34;</span> <span style="color:#f92672">]</span>
+<span style="color:#66d9ef">do</span>
+    sleep <span style="color:#ae81ff">1</span>
+    echo -n <span style="color:#e6db74">&#34;.&#34;</span>
+    limit<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>expr $limit - 1<span style="color:#e6db74">`</span>
+<span style="color:#66d9ef">done</span>
+echo <span style="color:#e6db74">&#34;&#34;</span>
+
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">`</span>WPACLI status | grep wpa_state<span style="color:#e6db74">`</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;wpa_state=COMPLETED&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+  ONLINE<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+  log_failure_msg <span style="color:#e6db74">&#34;WLAN offline after timeout&#34;</span>
+  panic
+<span style="color:#66d9ef">else</span>
+  ONLINE<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+  log_success_msg <span style="color:#e6db74">&#34;WLAN online&#34;</span>
+<span style="color:#66d9ef">fi</span>
+
+configure_networking
+</code></pre></div><h3 id="kill-when-done">Kill when done</h3>
+<p>Last, but not least, `<code>/etc/initramfs-tools/scripts/local-bottom/kill_wireless</code>
+should contain:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>PREREQ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>
+prereqs<span style="color:#f92672">()</span>
+<span style="color:#f92672">{</span>
+    echo <span style="color:#e6db74">&#34;</span>$PREREQ<span style="color:#e6db74">&#34;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">case</span> $1 in
+prereqs<span style="color:#f92672">)</span>
+    prereqs
+    exit <span style="color:#ae81ff">0</span>
+    ;;
+<span style="color:#66d9ef">esac</span>
+
+echo <span style="color:#e6db74">&#34;Killing wpa_supplicant so the system takes over later.&#34;</span>
+kill <span style="color:#e6db74">`</span>cat /run/initram-wpa_supplicant.pid<span style="color:#e6db74">`</span>
+</code></pre></div><h2 id="final-touches">Final touches</h2>
+<p>You may have noticed we use the provided <code>configure_networking</code> function, it
+relies on you passing the proper <code>ip=</code>kernel parameter, so better supply it,
+for GRUB just setup the <code>GRUB_CMDLINE_LINUX</code> in <code>/etc/default/grub</code> like:
+<code>GRUB_CMDLINE_LINUX=&quot;ip=:::::wlp5s0:on panic=10&quot;</code>
+(<a href="https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt" title="Mounting the root filesystem via NFS (nfsroot) -- which documents the ip parameter">see here the documentation of the ip= parameter</a>). The <code>panic=10</code> makes the system reboot if something goes wrong (like network failure), when testing you might prefer <code>break=premount</code> or some other options, see the <a href="https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt" title="Mounting the root filesystem via NFS (nfsroot) -- which documents the ip parameter">initramfs-tools manpage</a><a href="https://manpages.debian.org/jessie/initramfs-tools/initramfs-tools.8.en.html" title="initramfs-tools manpage">5</a> or <a href="https://wiki.debian.org/InitramfsDebug" title="Debian Wiki on InitramfsDebug">the Debian wiki InitramfsDebug page</a></p>
+<p>Make the scripts executable, and, finally, rebuild initramfs and update-grub:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /etc/initramfs-tools/scripts/local-bottom/kill_wireless
+chmod +x /etc/initramfs-tools/scripts/init-premount/a_enable_wireless
+chmod +x /etc/initramfs-tools/hooks/enable-wireless
+
+update-initramfs -k all -u
+update-grub
+</code></pre></div><p>And&hellip; reboot. I suggest you boot with <code>break=bottom</code>so you can check things work as expected (i.e with <code>ip link</code> and <code>ip addr</code>).</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Ip Tunnel Over Ssh With Tun</title>
+      <link>https://www.marcfargas.com/2008/07/ip-tunnel-over-ssh-with-tun/</link>
+      <pubDate>Thu, 24 Jul 2008 10:14:00 +0100</pubDate>
+      
+      <guid>https://www.marcfargas.com/2008/07/ip-tunnel-over-ssh-with-tun/</guid>
+      <description>Today I had some connection problems in one of our offices, so I needed to connect in some alternative way. A good moment for experimenting&amp;hellip; The alternative connection was my laptop acting as a router connected with my mobile phone via bluetooth.
+The problem&amp;rsquo;s come with the VPN connections, IPSec is nice, but you can hate it on lots of things&amp;hellip; i.e. all tunnels are setup using static ip addresses so in order to use the alternate connection (dynamic IP) I need to change the ipsec config of the other offices.</description>
+      <content:encoded><![CDATA[<p>Today I had some connection problems in one of our offices, so I needed to connect in some alternative way. A good moment for experimenting&hellip; The alternative connection was my laptop acting as a router connected with my mobile phone via bluetooth.</p>
+<p>The problem&rsquo;s come with the VPN connections, IPSec is nice, but you can hate it on lots of things&hellip; i.e. all tunnels are setup using static ip addresses so in order to use the alternate connection (dynamic IP) I need to change the ipsec config of the other offices.</p>
+<p>So today I wanted to try something new, tunneling ip traffic from one network to another over an ssh connection. And it works, Gentoo&rsquo;s wiki has some information on the subject: <a href="https://web.archive.org/web/20090328151009/http://gentoo-wiki.com/HOWTO_VPN_over_SSH_and_tun" title="Gentoo Wiki">here</a></p>
+<p>In brief, you need to, on the server:</p>
+<p>Add &ldquo;<code>PermitTunnel yes</code>&rdquo; to <code>/etc/ssh/sshd_config</code>
+Now, on the client it&rsquo;s as easy as to run ssh with some parameters, my script for launching it is:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>HOST<span style="color:#f92672">=</span>REMOTE_PARTY_ADDRESS
+HOST_PORT<span style="color:#f92672">=</span><span style="color:#ae81ff">22</span>
+TUN_LOCAL<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>   <span style="color:#75715e"># tun device number here.</span>
+TUN_REMOTE<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>  <span style="color:#75715e"># tun device number there</span>
+IP_LOCAL<span style="color:#f92672">=</span>192.168.111.2 <span style="color:#75715e"># IP Address for tun here</span>
+IP_REMOTE<span style="color:#f92672">=</span>192.168.111.1 <span style="color:#75715e"># IP Address for tun there.</span>
+IP_MASK<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> <span style="color:#75715e"># Mask of the ips above.</span>
+NET_REMOTE<span style="color:#f92672">=</span>192.168.0.0/16 <span style="color:#75715e"># Network on the other side of the tunnel</span>
+NET_LOCAL<span style="color:#f92672">=</span>192.168.8.0/24  <span style="color:#75715e"># Network on this side of the tunnel</span>
+ 
+echo <span style="color:#e6db74">&#34;Starting VPN tunnel ...&#34;</span>
+modprobe tun
+ssh -w <span style="color:#e6db74">${</span>TUN_LOCAL<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>TUN_REMOTE<span style="color:#e6db74">}</span> -f <span style="color:#e6db74">${</span>HOST<span style="color:#e6db74">}</span> -p <span style="color:#e6db74">${</span>HOST_PORT<span style="color:#e6db74">}</span> <span style="color:#e6db74">&#34;\
+</span><span style="color:#e6db74">	ip addr add </span><span style="color:#e6db74">${</span>IP_REMOTE<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>IP_MASK<span style="color:#e6db74">}</span><span style="color:#e6db74"> dev tun</span><span style="color:#e6db74">${</span>TUN_REMOTE<span style="color:#e6db74">}</span><span style="color:#e6db74"> \
+</span><span style="color:#e6db74">	&amp;amp;&amp;amp; ip link set tun</span><span style="color:#e6db74">${</span>TUN_REMOTE<span style="color:#e6db74">}</span><span style="color:#e6db74"> up \
+</span><span style="color:#e6db74">	&amp;amp;&amp;amp; ip route add </span><span style="color:#e6db74">${</span>NET_LOCAL<span style="color:#e6db74">}</span><span style="color:#e6db74"> via </span><span style="color:#e6db74">${</span>IP_LOCAL<span style="color:#e6db74">}</span><span style="color:#e6db74"> \
+</span><span style="color:#e6db74">	&amp;amp;&amp;amp; true&#34;</span>
+sleep <span style="color:#ae81ff">3</span>
+ip addr add <span style="color:#e6db74">${</span>IP_LOCAL<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>IP_MASK<span style="color:#e6db74">}</span> dev tun<span style="color:#e6db74">${</span>TUN_LOCAL<span style="color:#e6db74">}</span>
+ip link set tun<span style="color:#e6db74">${</span>TUN_LOCAL<span style="color:#e6db74">}</span> up
+ip route add <span style="color:#e6db74">${</span>NET_REMOTE<span style="color:#e6db74">}</span> via <span style="color:#e6db74">${</span>IP_REMOTE<span style="color:#e6db74">}</span>
+echo <span style="color:#e6db74">&#34;... done.&#34;</span>
+</code></pre></div><p>You&rsquo;ll maybe want to run this as root, because of the &ldquo;ip&rdquo; commands, and so ;)</p>
+<p>It&rsquo;s still far from perfect (i.e: the tunnel dies too often for some reason&hellip; although keep alive is set). But at least people around can print again! Luckily VoIP is handled out of the VPN.</p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
