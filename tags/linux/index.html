@@ -1,0 +1,127 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta content="debian,linux,barcelona,business,law,tax" name=keywords>
+<meta content="Marc Fargas" name=author>
+<meta property="og:title" content="linux - marcfargas.com">
+<meta property="og:url" content="https://www.marcfargas.com/tags/linux/">
+<meta property="og:description" content="Personal blog of Marc Fargas">
+<meta property="og:type" content="website">
+<title>linux | marcfargas.com</title>
+<script type=text/x-mathjax-config>
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<link rel=stylesheet href=https://www.marcfargas.com/css/style.css>
+<link rel="shortcut icon" href=https://www.marcfargas.com/favicon.ico>
+<link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin=anonymous>
+<link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/solarized-light.min.css>
+</head>
+<section class=section>
+<div class=container>
+<nav class=nav>
+<div class=nav-left>
+<a class=nav-item href=https://www.marcfargas.com><h1 class="title is-4">marcfargas.com</h1></a>
+</div>
+<div class=nav-right>
+<nav class="nav-item level is-mobile">
+<a class=level-item href=https://github.com/telenieko target=_blank>
+<span class=icon>
+<i class="fa fa-github"></i>
+</span>
+</a>
+<a class=level-item href=https://twitter.com/telenieko target=_blank>
+<span class=icon>
+<i class="fa fa-twitter"></i>
+</span>
+</a>
+<a class=level-item href=https://linkedin.com/in/marc-fargas-58a4307 target=_blank>
+<span class=icon>
+<i class="fa fa-linkedin-square"></i>
+</span>
+</a>
+<a class=level-item href=/index.xml target=_blank>
+<span class=icon>
+<i class="fa fa-rss"></i>
+</span>
+</a>
+</nav>
+</div>
+</nav>
+</div>
+</section>
+<section class=section>
+<div class=container>
+<article>
+<h1 class=title><a href=https://www.marcfargas.com/posts/enable-wireless-debian-initramfs/>Enable Wireless networks in Debian Initramfs</a></h1>
+<h2 class="subtitle is-5">December 7, 2017</h2>
+<div class=tags>
+<a class="button is-link" href=/tags/network>network</a>
+<a class="button is-link" href=/tags/linux>linux</a>
+</div>
+<div class=content>
+Initramfs is a very tiny environment in which your Linux system boots in order to do a lot of initialisation magic before loading your system. The most common use case is to mount the root filesystem, like when it’s encrypted and you need to type a passphrase to mount it. Or if fsck needs to run on an unclean root filesystem. Basically anything that goes before mounting the root filesystem and, after that, before launching INIT (you can read more in the Debian Wiki).
+...<a class="button is-link" href=https://www.marcfargas.com/posts/enable-wireless-debian-initramfs/ style=height:28px>
+Read more
+<span class="icon is-small">
+<i class="fa fa-angle-double-right"></i>
+</span>
+</a>
+</div>
+</article>
+<article>
+<h1 class=title><a href=https://www.marcfargas.com/posts/ip-tunnel-over-ssh-with-tun/>Ip Tunnel Over Ssh With Tun</a></h1>
+<h2 class="subtitle is-5">July 24, 2008</h2>
+<div class=tags>
+<a class="button is-link" href=/tags/linux>linux</a>
+<a class="button is-link" href=/tags/network>network</a>
+</div>
+<div class=content>
+Today I had some connection problems in one of our offices, so I needed to connect in some alternative way. A good moment for experimenting&mldr; The alternative connection was my laptop acting as a router connected with my mobile phone via bluetooth.
+The problem&rsquo;s come with the VPN connections, IPSec is nice, but you can hate it on lots of things&mldr; i.e. all tunnels are setup using static ip addresses so in order to use the alternate connection (dynamic IP) I need to change the ipsec config of the other offices.
+...<a class="button is-link" href=https://www.marcfargas.com/posts/ip-tunnel-over-ssh-with-tun/ style=height:28px>
+Read more
+<span class="icon is-small">
+<i class="fa fa-angle-double-right"></i>
+</span>
+</a>
+</div>
+</article>
+</div>
+</section>
+<section class=section>
+<div class=container>
+<nav class="level is-mobile">
+<div class=level-left>
+<div class=level-item>
+</div>
+</div>
+<div class="level-right is-marginless">
+<div class=level-item>
+</div>
+</div>
+</nav>
+</div>
+</section>
+<section class=section>
+<div class="container has-text-centered">
+<p>&copy; 2021 | Follow on <a href=https://twitter.com/telenieko target=_blank>Twitter</a> | <a href=https://github.com/mgjohansen/hucore.git target=_blank>Hucore theme</a> & <a href=http://gohugo.io target=_blank>Hugo</a> ♥</p>
+</div>
+</section>
+<script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin=anonymous></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/go.min.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/python.min.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/bash.min.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/kotlin.min.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/java.min.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
+<script>hljs.initHighlightingOnLoad()</script>

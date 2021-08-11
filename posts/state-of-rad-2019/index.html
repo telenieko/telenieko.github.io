@@ -1,0 +1,149 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta content="debian,linux,barcelona,business,law,tax" name=keywords>
+<meta content="Marc Fargas" name=author>
+<meta property="og:title" content="State of RAD 2019 - marcfargas.com">
+<meta property="og:url" content="https://www.marcfargas.com/posts/state-of-rad-2019/">
+<meta property="og:description" content="Personal blog of Marc Fargas">
+<meta property="og:type" content="website">
+<title>State of RAD 2019 | marcfargas.com</title>
+<script type=text/x-mathjax-config>
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<link rel=stylesheet href=https://www.marcfargas.com/css/style.css>
+<link rel="shortcut icon" href=https://www.marcfargas.com/favicon.ico>
+<link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin=anonymous>
+<link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/solarized-light.min.css>
+</head>
+<body>
+<section class=section>
+<div class=container>
+<nav class=nav>
+<div class=nav-left>
+<a class=nav-item href=https://www.marcfargas.com><h1 class="title is-4">marcfargas.com</h1></a>
+</div>
+<div class=nav-right>
+<nav class="nav-item level is-mobile">
+<a class=level-item href=https://github.com/telenieko target=_blank>
+<span class=icon>
+<i class="fa fa-github"></i>
+</span>
+</a>
+<a class=level-item href=https://twitter.com/telenieko target=_blank>
+<span class=icon>
+<i class="fa fa-twitter"></i>
+</span>
+</a>
+<a class=level-item href=https://linkedin.com/in/marc-fargas-58a4307 target=_blank>
+<span class=icon>
+<i class="fa fa-linkedin-square"></i>
+</span>
+</a>
+<a class=level-item href=/index.xml target=_blank>
+<span class=icon>
+<i class="fa fa-rss"></i>
+</span>
+</a>
+</nav>
+</div>
+</nav>
+</div>
+</section>
+<section class=section>
+<div class=container>
+<h1 class=title>State of RAD 2019</h1>
+<h2 class="subtitle is-5">June 11, 2019 by Marc Fargas</h2>
+<div class=tags>
+<a class="button is-link" href=/tags/python>python</a>
+<a class="button is-link" href=/tags/programming>programming</a>
+<a class="button is-link" href=/tags/rant>rant</a>
+</div>
+<div class=content>
+<p>Though we are often sold into the idea that software development is better than ever before, the measure of better is open for debate. Surely you now have fancy stuff/words like DevOps, CI/CD, TDD, BDD, and more acronyms than there are three letter agencies in the US government.</p>
+<p>But, for those old enough, there was a time when you could build stuff with just a notepad. It &ldquo;got the job done&rdquo;.</p>
+<p>On the desktop, Microsoft had FoxPro, VB6 or, even, Microsoft Access. I say Microsoft because there was a time that&rsquo;s &ldquo;all&rdquo; there was.</p>
+<p>On the web, sure, spaghetti code is ugly but it worked. If you just needed some quick reports, you could drop a script in a cgi-bin folder, do some tables and framesets and move on to the next thing.</p>
+<p>Nowadays all this things look more complicated for the &ldquo;amateur&rdquo; software developer. That is, solo developers or small business owners that are not tech-startups.</p>
+<p>On our definition of &ldquo;amateur&rdquo; there&rsquo;s nothing simpler than desktop. I have FoxPro 6 apps still running in the office, and the only thing that will kill them is lack of 64bit compatibility. <strong>Zero maintenance</strong>: just a folder with an .exe file to care about. 20 years running. The biggest pain would be updates, but this is internal stuff: just put that folder in a shared drive. You don&rsquo;t even have to care about libraries, there&rsquo;s only one dll&mldr;</p>
+<h2 id=the-current-lack-of-a-desktop-story>The current lack of a desktop story</h2>
+<p>What is out there that allows you to build a desktop application that will still run 20 years from now? Most business software does not need constant updates and new features, but it needs to be able to be open 5-10 years from now to print a report for a tax audit, for example.</p>
+<p>There is no compelling desktop story from anyone.</p>
+<p>On the Microsoft side (still major desktop OS): FoxPro is gone, Lightswitch too, VB.NET is not VB6, there&rsquo;s still MS Access.. completely stalled (read: VBA).</p>
+<p>You might think of Java: Eclipse RCP is, definitely, not for amateurs, and NetBeans RCP is stalled. Though NetBeans RCP might get a boost now with the donation to Apache, it is not at VFP/VB6 &ldquo;ease of use&rdquo; level.</p>
+<p>Then there are a few &ldquo;stories&rdquo; out there that lack something in some ways:</p>
+<ul>
+<li><a href=https://www.lazarus-ide.org/>Lazarus</a>. If not dealt with it enough to form an opinion, but it is a contender.</li>
+<li><a href=https://www.lianja.com/>Lianja</a>. Which promises lots but I&rsquo;m not sure about it&rsquo;s long term maintainability, specialy on desktop deployments. Though this is kind of a gut-guess.</li>
+<li><a href=https://www.windev.com/>PC Soft WINDEV</a>. This is probably the best desktop story if seen so far on the last few years. though it&rsquo;s language lacks some features of modern ones, you can get a lot done. Better JSON/REST support would do a lot, which it appears has been cared for in the latest release.</li>
+<li><a href=https://www.filemaker.com/>FileMaker</a>. I just hate it&rsquo;s licensing model (per-user), otherwise it&rsquo;d be almost fine, until you want to integrate with other stuff. It makes for amazing interfaces, but it&rsquo;s coding facilities are nowhere near any mainstream language like Python.</li>
+</ul>
+<p>The Microsoft front is probably the worst as it not only lacks a story, it&rsquo;s changing it every few years (WPF, WinForms, UWP, &mldr;).</p>
+<p>Russell Keith-Magee noted on the <a href="https://www.youtube.com/watch?v=ftP5BQh1-YM">PyCon 2019 Keynote</a> that Python lacks a compelling desktop story. I&rsquo;d go further: everyone lacks a compelling desktop story.</p>
+<h2 id=the-web-is-no-better>The web is no better</h2>
+<p>The web front is not as sad, as long as you know how to setup a web server you can still drop scripts in a cgi-bin folder and go with it.</p>
+<p>Web backends for small-scale applications are doable still with PHP, Python, &mldr; though frontend is a completely different matter. Nowadays all &ldquo;has to&rdquo; be JavaScript intensive, React! Angular! which means that most resources available work under that premise.</p>
+<p>A CSS framework that does not require you to setup npm, bower or another tool of the day is rare to be seen. Some frameworks that did not presume a bloated frontend before do so now, raising concern about the future of the non-react-non-angular builds. Maybe <a href=https://bulma.io/>Bulma CSS</a> might be an exception, no javascript at all, so not all is lost.</p>
+<p>Truth be told, on the web front, there is nothing as easy and straightforward than server side rendered content. Specially if you are on PHP or Python.</p>
+<p>There are some promises of rapid application development which, IMHO, are just that: promises. Rapid prototyping would be a more adequate wording.</p>
+<ul>
+<li><a href=https://openxava.org/>OpenXava</a>, not much to say. You simply need to really understand Java to go further from the basics. And &ldquo;really understand Java&rdquo; is not &ldquo;amateur development&rdquo;.</li>
+<li><a href=https://isis.apache.org/>Apache Isis</a>, I personally like it&rsquo;s philosophy a lot. But has the same issue as OpenXava: you really need to understand Java.</li>
+<li><a href=https://www.cuba-platform.com/>CUBA Platform</a>, I also happen to like it a lot. You can probably go further than with OpenXava or Isis without knowing a lot of Java, but it&rsquo;s still Java. furthermore, it has that ugly project structure that came from GWT days where you need to work with three separate modules for every &ldquo;module&rdquo; of you app: client, shared, server. That might improve when they move to Vaadin >10, though it&rsquo;s not in the horizon.</li>
+</ul>
+<p>Java options basically all have the same issue for the amateur developer: once you need to move from &ldquo;prototype&rdquo; to the next stage you really need to understand what&rsquo;s going on under the hood, and that in Java is not easy.</p>
+<p>There are quite a few more, but I&rsquo;ll skip them as the point would be the same: there&rsquo;s nothing which will allow you to reliably build a simple CRUD / Line-Of-Business application without having to take care of a lot of infrastucture stuff like databases, web servers, etc.</p>
+<h2 id=invasion-of-subscription-model>Invasion of subscription model</h2>
+<p>I lied on my last paragraph. There is. WaveMaker, Microsoft PowerApps, Google AppMaker, &mldr; there is a plethora of low-code / no-code solutions out there. But:</p>
+<ul>
+<li>They are, generaly, cloud based or with super-expensive on-premises options.</li>
+<li>They are subscription based and with per-user pricing models.</li>
+<li>They use propietary technologies which is the worst lock-in you can voluntarily subject yourself to.</li>
+<li>The moment you need to do something out of &ldquo;the normal&rdquo; you will either not be able to do it, end up writting Java, or having to deploy something somewhere and call it via REST.</li>
+</ul>
+<p>But, more importantly, you can&rsquo;t fire that up 20 years from now and expect it to &ldquo;just work&rdquo; and be able to print some reports. Even if you pay for the applicable subscription fee for 20 years, I doubt you&rsquo;d get there without any code changes, etc.</p>
+<p>When integrating those tools, you will probably end up with a serverless function, because it&rsquo;s the easiest thing to deploy. Or a Kubernetes cluster, or anything else. You will be introducing cross dependencies and points of failure which you will then need to monitor and care about. Now imagine having to put that up again in 10 years because a court order asks for some records only avaiable in that (then in the future) legacy system.</p>
+<h2 id=conclusions>Conclusions</h2>
+<p>I really believe there&rsquo;s a space for such tools to come back to the front lines of application development. Applications that can run on their own either on the desktop or sandboxed in a browser but that do not require an infrastructure setup more than you need a monitor.</p>
+<p>Just as I also believe that the next economic crisis (soon to come) will end with lots of the current subscription based businesses moving companies back to things whose operation do not rely on being able to pay the next month&rsquo;s fee.</p>
+</div>
+<div class=nav-left>
+<a class=nav-item href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.marcfargas.com%2fposts%2fstate-of-rad-2019%2f" title="Share on Facebook" target=_blank><span class="fa fa-facebook fa-2x" aria-hidden=true></span></a>
+<a class=nav-item href="https://plus.google.com/share?url=https%3a%2f%2fwww.marcfargas.com%2fposts%2fstate-of-rad-2019%2f" title="Share on Google+" target=_blank><span class="fa fa-google-plus fa-2x" aria-hidden=true></span></a>
+<a class=nav-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fwww.marcfargas.com%2fposts%2fstate-of-rad-2019%2f" title="Share on LinkedIn" target=_blank><span class="fa fa-linkedin fa-2x" aria-hidden=true></span></a>
+<a class=nav-item href="https://twitter.com/home?status=State%20of%20RAD%202019 - https%3a%2f%2fwww.marcfargas.com%2fposts%2fstate-of-rad-2019%2f" title="Tweet this" target=_blank><span class="fa fa-twitter fa-2x"></span></a>
+<a class=nav-item href="http://www.reddit.com/submit?url=https%3a%2f%2fwww.marcfargas.com%2fposts%2fstate-of-rad-2019%2f&title=State%20of%20RAD%202019" title="Share on Reddit" target=_blank><span class="fa fa-reddit-alien fa-2x" aria-hidden=true></span></a>
+</div>
+</div>
+</section>
+<section class=section>
+<div class=container>
+<aside><div id=disqus_thread></div></aside>
+<script type=text/javascript>var disqus_shortname='marcfargas-com';(function(){var a=document.createElement('script');a.type='text/javascript',a.async=!0,a.src='//'+disqus_shortname+'.disqus.com/embed.js',(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript rel=nofollow>comments powered by Disqus.</a></noscript>
+</div>
+</section>
+<section class=section>
+<div class="container has-text-centered">
+<p>&copy; 2021 | Follow on <a href=https://twitter.com/telenieko target=_blank>Twitter</a> | <a href=https://github.com/mgjohansen/hucore.git target=_blank>Hucore theme</a> & <a href=http://gohugo.io target=_blank>Hugo</a> ♥</p>
+</div>
+</section>
+<script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin=anonymous></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/go.min.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/python.min.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/bash.min.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/kotlin.min.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/java.min.js></script>
+<script type=text/javascript src=//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
